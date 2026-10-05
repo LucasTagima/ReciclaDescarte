@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ReciclaDescarte</title>
+    <link rel="stylesheet" href="../css/entrar.css">
+</head>
+<body>
+    <main class="tela-login">
+        <div class="login-container">
+            <header class="login-header">
+                <img src="..imagens/logo.png" alt="Logo ReciclaDescarte" class="logo">
+                <h1>Bem-vindo ao ReciclaDescarte</h1>
+                <p>Conecte-se e faça a sua parte hoje.</p>
+            </header>
+
+            <form action="#" method="post" class="login-form">
+                <fieldset>
+                    <div class="input-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="exemplo@email.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <!-- Flexbox será usado aqui para alinhar Label e Link lado a lado -->
+                        <div class="label-senha-wrapper">
+                            <label for="senha">Senha</label>
+                            <a href="#" class="link-esqueceu">Esqueceu a senha?</a>
+                        </div>
+                        <div class="senha-wrapper">
+                            <input type="password" name="senha" id="senha" placeholder="••••••••••••" required>
+                            <!-- Ícone de olho simulado (pode ser substituído por um SVG real) -->
+                            <span class="icone-olho">👁️‍🗨️</span> 
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="acoes">
+                    <button type="submit" class="btn-primario">Entrar</button>
+                </div>
+            </form>
+
+            <div class="divisor">
+                <span>ou entre com</span>
+            </div>
+
+            <!-- Flexbox será usado aqui para dividir os botões em 50% cada -->
+            <div class="social-login">
+                <button class="btn-social">
+                    <img src="..imagens/google.png" alt="Google" width="20"> Google
+                </button>
+                <button class="btn-social">
+                    <img src="..imagens/apple-icon.png" alt="Apple" width="20"> Apple
+                </button>
+            </div>
+
+            <footer class="login-footer">
+                <p>Não tem conta? <a href="#" class="link-criar">Criar conta</a></p>
+            </footer>
+        </div>
+    </main>
+</body>
+</html>
