@@ -3,53 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReciclaDescarte</title>
-    <link rel="stylesheet" href="style.css">
+    <title>ReciclaDescarte - Início</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+
     <header class="cabecalho">
         <div class="logotipo">
-            <img src="imagens/logo.png" alt="logo do reciclaDescarte">
-            ReciclaDescarte
+            <img src="imagens/logo.png" alt="Logo ReciclaDescarte">
+            <span>ReciclaDescarte</span>
         </div>
-        <nav class="menu-navegacao" aria-label="Navegação principal">
-            <a href="#">Como Funciona</a>
-            <a href="#">Benefícios</a>
-            <a href="#">Parceiros</a>
-            <a href="#">Depoimentos</a>
-
-        </nav>
+        
         <div class="area-conta">
-            <a href="pages/entrar.html">Entrar</a>
-            <a href="#">Cadastrar-se</a>
+            <a href="pages/entrar.html" class="botao-outline">Entrar</a>
+            <a href="#" class="botao-primario">Cadastrar-se</a>
         </div>
+
+        <nav class="menu-navegacao" aria-label="Navegação principal">
+            <a href="#como-funciona">Como Funciona</a>
+            <a href="#beneficios">Benefícios</a>
+            <a href="#parceiros">Parceiros</a>
+            <a href="#depoimentos">Depoimentos</a>
+        </nav>
     </header>
+
     <main class="conteudo-principal">
+
         <section class="hero">
+            <span class="etiqueta-hero">✓ O Site de Reciclagem Inteligente!</span>
             <h1>Conectamos moradores a empresas de reciclagem</h1>
             <p>Descarte seus resíduos recicláveis com praticidade, acompanhe seu impacto ambiental em tempo real e ajude a transformar sua cidade num ecossistema sustentável.</p>
+            
             <div class="botoes-cta">
                 <a href="#" class="botao-primario">Comece a Reciclar agora</a>
-                <a href="#" class="botao-secundario">Quero ser Coletor Parceiro</a>
+                <a href="#" class="botao-outline">Quero ser Coletor Parceiro</a>
             </div>
-            <img src="imagens/hero_imagem.png" alt="Ilustração mostrando pessoas reciclando em uma cidade sustentável, com painéis solares e turbinas eólicas ao fundo">
+
+
+            <div class="card-proativo">
+                <div>
+                    <h3>Seja proativo!</h3>
+                    <p>Uma experiência simples para quem descarta e para quem coleta.</p>
+                </div>
+                <img src="imagens/hero_imagem.png" alt="Ilustração cidade sustentável">
+            </div>
         </section>
-        <section class="how-it-works">
+
+        <section id="como-funciona" class="how-it-works">
             <span class="etiqueta">Processo Simples</span>
             <h2>Como o ReciclaDescarte funciona?</h2>
-            <section class="passo1">
-                <h2>Solicite a Coleta</h2>
-                <p>Indique o tipo de material reciclável, peso estimado e agende o melhor horário pelo app.</p>
-            </section>
-            <section class="passo2">
-                <h2>Empresa Aceita</h2>
-                <p>Uma empresa ou cooperativa homologada aceita o seu pedido e se desloca até você.</p>
-            </section>
-            <section class="passo3">
-                <h2>Reciclagem Feita</h2>
-                <p>Pronto! O lixo é coletado, encaminhado para triagem e você ganha pontos de impacto.</p>
-            </section>
+            
+            <div class="passos-grid">
+                <article class="passo-card">
+                    <span class="numero">01</span>
+                    <h3>Solicite a Coleta</h3>
+                    <p>Indique o tipo de material reciclável, peso estimado e agende o melhor horário pelo app.</p>
+                </article>
+                <article class="passo-card">
+                    <span class="numero">02</span>
+                    <h3>Empresa Aceita</h3>
+                    <p>Uma empresa ou cooperativa homologada aceita o seu pedido e se desloca até você.</p>
+                </article>
+                <article class="passo-card">
+                    <span class="numero">03</span>
+                    <h3>Reciclagem Feita</h3>
+                    <p>Pronto! O lixo é coletado, encaminhado para triagem e você ganha pontos de impacto.</p>
+                </article>
+            </div>
+        </section>
+
+
+        <section id="depoimentos" class="depoimentos">
+            <h2>O que dizem os nossos usuários</h2>
+            <div class="passos-grid"> 
+                <article class="depoimento-card">
+                    <p>"O ReciclaDescarte transformou completamente a forma como lidamos com os resíduos na nossa casa. Agendamos e a empresa parceira retira. Incrível!"</p>
+                    <div class="autor">
+                        <strong>Beatriz M.</strong>
+                        <span>Moradora de São Paulo</span>
+                    </div>
+                </article>
+                <article class="depoimento-card">
+                    <p>"Como cooperativa parceira, conseguimos otimizar nossas rotas de coleta em mais de 40%, aumentando nosso faturamento e garantindo emprego seguro."</p>
+                    <div class="autor">
+                        <strong>Joaquim Santos</strong>
+                        <span>Diretor de Reciclagem</span>
+                    </div>
+                </article>
+            </div>
         </section>
     </main>
+
+
+    <footer class="rodape-principal">
+        <div class="rodape-grid">
+            <div class="rodape-marca">
+                <img src="imagens/logo.png" alt="Logo" class="logo-rodape">
+                <p>A tecnologia como catalisadora do futuro verde. Conectando cidadãos a empresas comprometidas.</p>
+            </div>
+            <div class="rodape-links">
+                <h4>Plataforma</h4>
+                <a href="#">Como Funciona</a>
+                <a href="#">Benefícios</a>
+                <a href="#">Preços</a>
+                <a href="#">Segurança</a>
+            </div>
+            <div class="rodape-links">
+                <h4>Empresa</h4>
+                <a href="#">Sobre nós</a>
+                <a href="#">Carreiras</a>
+                <a href="#">Contato</a>
+            </div>
+            <div class="rodape-links">
+                <h4>Legal</h4>
+                <a href="#">Privacidade</a>
+                <a href="#">Termos</a>
+                <a href="#">LGPD</a>
+            </div>
+        </div>
+        <div class="rodape-direitos">
+            <p>© 2026 ReciclaDescarte. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 </body>
 </html>
