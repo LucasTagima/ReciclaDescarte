@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Morador</title>
+</head>
+<body>
+    <header class="cabecalho-dash">
+        <img src="../imagens/logo.png" alt="Logo ReciclaDescarte">
+        <div class="usuario">
+            <div class="usuario">
+                <img src="avatar-mariana.jpg" alt="">
+                <div>
+                    <strong>Mariana Silva</strong>
+                    <span>Morador</span>
+                </div>
+            </div>
+        </div>
+        <form role="search" class="busca">
+            <input type="search" placeholder="Buscar coletas, emp...">
+        </form>
+        <button type="button" class="botao-notificacao" aria-label="Notificações">
+            🔔
+        </button>
+        <nav aria-label="Menu principal">
+            <button type="button">Menu</button>
+        </nav>
+    </header>
+
+    <main class="dashboard">
+        <section class="saudacao">
+            <h1>Olá, Mariana!</h1>
+            <span class="icone">♻️</span>
+            <p>Você já evitou que 142kg de resíduos fossem para aterros este mês. Continue com o excelente impacto ecológico!</p>
+        </section>
+
+        <section class="estatisticas" aria-label="Suas estatísticas">
+            <div class="card-dash">
+                <div class="cabecalho-dash">
+                <h2>Resíduos Reciclados</h2>
+                    <span class="icone-dash">🌿</span>
+                </div>
+                <p class="valor">142 kg</p>
+                <span class="variacao">+24kg esta semana</span>
+            </div>
+
+            <div class="card">
+                <div class="cabecalho-dash">
+                    <h2>Coletas Realizadas</h2>
+                    <span class="icone-dash">🚚</span>
+                </div>
+                <p class="valor">18</p>
+                <span class="variacao">Próxima coleta em 2 dias</span>
+            </div>
+
+            <div class="card">
+                <div class="cabecalho-dash">
+                    <h2>Carbono Evitado</h2>
+                    <span class="icone-dash">♻️</span>
+                </div>
+                <p class="valor">324 kg CO₂</p>
+                <span class="variacao">Equivalente a 5 árvores</span>
+            </div>
+        </section>
+
+        <section class="acoes-rapidas">
+            <h2>Ações Rápidas</h2>
+            <a href="" class="card-acao destaque">
+                <span class="icone-acao">➕</span>
+                <div>
+                    <strong>Nova Solicitação</strong>
+                    <span>Agendar coleta de recicláveis</span>
+                </div>
+            </a>
+
+            <a href="" class="card-acao">
+                <span class="icone-acao">🕐</span>
+                <div>
+                    <strong>Minhas Coletas</strong>
+                    <span>Status de solicitações ativas</span>
+                </div>
+            </a>
+        </section>
+
+        <section class="coletores-proximos">
+            <div class="cabecalho-secao">
+                <h2>Coletores Próximos</h2>
+                <a href="mapa.html">Ver todos no mapa</a>
+            </div>
+
+            <ul class="lista-coletores">
+                <li>
+                    <img src="greencycle.jpg" alt="">
+                    <div class="info-coletor">
+                        <strong>Cooperativa GreenCycle</strong>
+                        <span class="avaliacao">⭐ 4.9 (120 coletas) · 1.2km</span>
+                        <ul class="tags">
+                            <li>Plástico</li>
+                            <li>Papel</li>
+                            <li>Vidro</li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <img src="ecolog.jpg" alt="">
+                    <div class="info-coletor">
+                        <strong>EcoLog Logística Reversa</strong>
+                        <span class="avaliacao">⭐ 4.8 (85 coletas) · 3.4km</span>
+                        <ul class="tags">
+                            <li>Metal</li>
+                            <li>Eletrônicos</li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <img src="pinheiros.jpg" alt="">
+                    <div class="info-coletor">
+                        <strong>Recicla Pinheiros Coleta</strong>
+                        <span class="avaliacao">⭐ 4.7 (240 coletas) · 0.8km</span>
+                        <ul class="tags">
+                            <li>Orgânico</li>
+                            <li>Plástico</li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
