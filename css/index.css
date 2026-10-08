@@ -1,3 +1,4 @@
+
 :root {
     --verde-primario: #1BC059;
     --verde-escuro: #128A3E;
@@ -10,12 +11,14 @@
     --fonte-padrao: system-ui, -apple-system, sans-serif;
 }
 
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: var(--fonte-padrao);
 }
+
 
 :focus { 
     outline: 3px solid rgba(27, 192, 89, 0.5); 
@@ -56,6 +59,7 @@ body {
     max-width: 40px;
 }
 
+
 .area-conta {
     display: flex;
     width: 100%;
@@ -81,6 +85,7 @@ body {
     font-size: 0.9rem;
 }
 
+
 .botao-primario, .botao-outline {
     display: inline-block;
     padding: 14px 24px;
@@ -101,6 +106,7 @@ body {
     color: var(--verde-primario);
     border: 2px solid var(--verde-primario);
 }
+
 
 .hero {
     padding: 40px 24px;
@@ -144,6 +150,7 @@ body {
 
 .card-proativo h3 { color: var(--texto-titulo); }
 
+
 .how-it-works, .depoimentos {
     padding: 48px 0; 
     text-align: center;
@@ -156,14 +163,18 @@ body {
     font-size: 1.75rem;
 }
 
+
 .passos-grid {
     display: flex;
     overflow-x: auto;
     gap: 16px;
     padding: 0 24px 24px 24px;
+    
+
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 }
+
 
 .passos-grid::-webkit-scrollbar {
     display: none;
@@ -175,6 +186,8 @@ body {
     border-radius: 16px;
     border: 1px solid var(--borda-input);
     text-align: left;
+    
+    
     flex: 0 0 85%;
     scroll-snap-align: center; 
 }
@@ -197,6 +210,7 @@ body {
     flex-direction: column;
     font-size: 0.85rem;
 }
+
 
 .rodape-principal {
     background-color: var(--fundo-secao);
@@ -227,85 +241,37 @@ body {
     font-size: 0.85rem;
 }
 
+
 @media (min-width: 960px) {
+ 
     .cabecalho {
         flex-direction: row;
         justify-content: space-between;
+    }
+
+    .area-conta {
+        width: auto;
+        order: 3;
     }
 
     .menu-navegacao {
         order: 2;
     }
 
-    .area-conta {
-        width: auto;
-        order: 3;
-        align-items: center; 
-    }
-
-    .area-conta .botao-outline {
-        border: none;
-        padding: 0;
-        color: var(--texto-titulo);
-    }
-
-    .area-conta .botao-primario {
-        padding: 10px 24px;
-    }
-
+  
     .hero {
         padding: 80px 48px;
         max-width: 1200px;
         margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas: 
-            "etiqueta imagem"
-            "titulo imagem"
-            "texto imagem"
-            "botoes imagem";
-        gap: 24px;
-        text-align: left;
-        align-items: center;
     }
 
-    .etiqueta-hero {
-        grid-area: etiqueta;
-        justify-self: flex-start;
-    }
-
-    .hero h1 { 
-        font-size: 3.5rem; 
-        grid-area: titulo;
-    }
-
-    .hero p {
-        grid-area: texto;
-    }
+    .hero h1 { font-size: 3.5rem; }
 
     .botoes-cta {
         flex-direction: row; 
-        justify-content: flex-start;
-        grid-area: botoes;
+        justify-content: center;
     }
 
-    .card-proativo {
-        grid-area: imagem;
-        background: transparent;
-        border: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .card-proativo div {
-        display: none;
-    }
-
-    .card-proativo img {
-        width: 100%;
-        max-width: 650px;
-        margin-left: auto;
-    }
 
     .how-it-works, .depoimentos {
         padding: 48px 24px; 
