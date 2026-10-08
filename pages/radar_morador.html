@@ -10,21 +10,19 @@
 </head>
 <body>
 
-  <!-- TOPO: título, barra (sanduíche + logo) e barra MENU -->
   <header class="topo">
     <h1>ReciclaDescarte</h1>
 
     <div class="barra-topo">
-      <button type="button" class="btn-sanduiche" aria-label="Abrir menu">
-        <!-- ícone sanduíche (3 linhas) entra aqui quando houver -->
-      </button>
-      <img src="img/logo-recicladescarte.png" alt="Logo ReciclaDescarte: árvore dentro de um símbolo de reciclagem">
-    </div>
+    <button type="button" class="btn-sanduiche" aria-label="Abrir menu">
+        <img src="../imagens/menu-hamburguer.png" alt="">
+    </button>
 
-    <!-- MENU PRINCIPAL (faixa com rolagem)
-         No design só "MENU" aparece: a faixa tem altura fixa e rola por dentro.
-         Os links ficam logo abaixo no HTML; quem esconde o resto é o CSS
-         (altura fixa + overflow-y: auto). -->
+    <img src="../imagens/logo.png"
+         alt="Logo ReciclaDescarte: árvore dentro de um símbolo de reciclagem">
+</div>
+
+    
     <nav class="faixa-menu" aria-label="Menu principal">
       <p class="menu-titulo">MENU</p>
       <ul>
@@ -36,10 +34,7 @@
       </ul>
     </nav>
 
-    <!-- OVERLAY DO MENU
-         Fica escondido (hidden) e só aparece ao clicar no sanduíche.
-         A div é o fundo escurecido; o nav é a caixa branca com os links.
-         Para abrir/fechar: CSS ou JavaScript (HTML sozinho não faz isso). -->
+
     <div class="overlay-menu" id="overlay-menu" hidden>
       <nav aria-label="Menu do sanduíche">
         <ul>
@@ -56,46 +51,41 @@
 
   <main>
 
-    <!-- Busca + notificações -->
     <div class="barra-busca">
       <form action="#" method="get">
-        <!-- ícone de lupa entra aqui quando houver -->
+        <img src="../imagens/search.svg" alt="iamgem da lupa na barra de pesquisa">
         <input type="search" id="busca" name="busca" placeholder="Buscar chamados..." aria-label="Buscar chamados">
       </form>
 
       <button type="button" class="btn-sino" aria-label="Notificações">
-        <!-- ícone de sino + bolinha vermelha (notificação nova) entram aqui quando houver -->
+        <img src="../imagens/notify-bell.png" alt="iamgem da notificação na barra de pesquisa">
       </button>
     </div>
 
-    <!-- Cooperativa logada -->
     <div class="perfil">
       <img src="img/avatar-greencycle.png" alt="Ícone da Cooperativa GreenCycle">
       <p class="perfil-nome"><strong>Cooperativa GreenCycle</strong></p>
       <p class="perfil-tipo"><small>Painel Cooperativo</small></p>
     </div>
 
-    <!-- Mapa da região -->
     <section class="mapa" aria-label="Mapa da região monitorada">
       <img src="img/mapa-regiao.png" alt="Mapa da região com os chamados de coleta próximos">
 
       <p class="mapa-status">
-        <!-- bolinha verde (status ativo) entra aqui quando houver -->
+        <img src="../imagens/Ellipse.svg" alt="iamgem de status ativo no mapa">
         Monitorando sua região <small>• 3.5 km de raio</small>
       </p>
 
       <button type="button" class="btn-bussola" aria-label="Centralizar mapa">
-        <!-- ícone de bússola entra aqui quando houver -->
+        <img src="../imagens/compass.png" alt="iamgem da bússula no mapa">
       </button>
 
-      <!-- Cada pin = etiqueta escura + ícone circular de reciclagem (a cor muda por pin).
-           A posição de cada um no mapa é feita no CSS. -->
       <ul class="pins">
-        <li class="pin pin-plastico-vidro">Plástico + Vidro (0.8km)</li>
-        <li class="pin pin-papelao">Papelão (1.5km)</li>
-        <li class="pin pin-voce">Catador (Você)</li>
-        <li class="pin pin-metal-papelao">Metal + Papelão (2.1km)</li>
-        <li class="pin pin-vidro-plastico">Vidro + Plástico (2.8km)</li>
+        <li class="pin pin-plastico-vidro">Plástico + Vidro (0.8km)<img src="../imagens/request-pin.svg" alt="icone verde no mapa"></li>
+        <li class="pin pin-papelao">Papelão (1.5km)<img src="../imagens/request-pin (1).svg" alt="icone laranja no mapa"></li>
+        <li class="pin pin-voce">Catador (Você)<img src="../imagens/collector-anchor.svg" alt="icone circular(azul) no mapa"></li>
+        <li class="pin pin-metal-papelao">Metal + Papelão (2.1km)<img src="../imagens/request-pin (2).svg" alt="icone cinza no mapa"></li>
+        <li class="pin pin-vidro-plastico">Vidro + Plástico (2.8km)<img src="../imagens/request-pin (3).svg" alt="icone azul no mapa"></li>
       </ul>
 
       <div class="zoom">
@@ -104,13 +94,11 @@
       </div>
     </section>
 
-    <!-- Radar de Demandas -->
     <section class="radar" aria-labelledby="titulo-radar">
       <h2 id="titulo-radar">Radar de Demandas</h2>
       <p>Pedidos de descarte aguardando atendimento</p>
       <p class="pendentes">12 chamados pendentes</p>
 
-      <!-- Filtros (só o valor exibido; as demais opções entram em cada select) -->
       <form action="#" method="get" class="filtros">
         <select id="filtro-material" name="material" aria-label="Filtrar por material">
           <option value="todos" selected>Todos os materiais</option>
@@ -125,7 +113,6 @@
         </select>
       </form>
 
-      <!-- Chamado 1 -->
       <article class="chamado">
         <header>
           <h3>Mariana Silva</h3>
@@ -141,15 +128,14 @@
           <li class="tag tag-vidro">Vidro</li>
         </ul>
 
-        <p class="endereco"><!-- ícone de pin (localização) --> Rua dos Pinheiros, 450 - Ap 72B</p>
+        <p class="endereco"><img src="../imagens/map-pin.png" alt="icone de local na chamada"> Rua dos Pinheiros, 450 - Ap 72B</p>
 
         <footer>
           <p class="estimativa">Est. 8.5 kg de recicláveis</p>
-          <button type="button" class="btn-aceitar"><!-- ícone de check --> Aceitar</button>
+          <button type="button" class="btn-aceitar"><img src="../imagens/check.png" alt="icone de certo na demanda"> Aceitar</button>
         </footer>
       </article>
 
-      <!-- Chamado 2 -->
       <article class="chamado">
         <header>
           <h3>Carlos Alberto S.</h3>
@@ -164,15 +150,14 @@
           <li class="tag tag-papelao">Papelão</li>
         </ul>
 
-        <p class="endereco"><!-- ícone de pin (localização) --> Av. Brigadeiro Faria Lima, 1200</p>
+        <p class="endereco"><img src="../imagens/map-pin.png" alt="icone de local na chamada"> Av. Brigadeiro Faria Lima, 1200</p>
 
         <footer>
           <p class="estimativa">Est. 15.0 kg de recicláveis</p>
-          <button type="button" class="btn-aceitar"><!-- ícone de check --> Aceitar</button>
+          <button type="button" class="btn-aceitar"><img src="../imagens/check.png" alt="icone de certo na demanda"> Aceitar</button>
         </footer>
       </article>
 
-      <!-- Chamado 3 -->
       <article class="chamado">
         <header>
           <h3>Clínica OdontoPinheiros</h3>
@@ -188,15 +173,14 @@
           <li class="tag tag-papelao">Papelão</li>
         </ul>
 
-        <p class="endereco"><!-- ícone de pin (localização) --> Rua Cunha Gago, 320 - Sala 4</p>
+        <p class="endereco"><img src="../imagens/map-pin.png" alt="icone de local na chamada"> Rua Cunha Gago, 320 - Sala 4</p>
 
         <footer>
           <p class="estimativa">Est. 22.3 kg de recicláveis</p>
-          <button type="button" class="btn-aceitar"><!-- ícone de check --> Aceitar</button>
+          <button type="button" class="btn-aceitar"><img src="../imagens/check.png" alt="icone de certo na demanda"> Aceitar</button>
         </footer>
       </article>
 
-      <!-- Chamado 4 -->
       <article class="chamado">
         <header>
           <h3>Condomínio Edifício Mirante</h3>
@@ -212,29 +196,25 @@
           <li class="tag tag-plastico">Plástico</li>
         </ul>
 
-        <p class="endereco"><!-- ícone de pin (localização) --> Rua Artur de Azevedo, 890</p>
+        <p class="endereco"><img src="../imagens/map-pin.png" alt="icone de local na chamada"> Rua Artur de Azevedo, 890</p>
 
         <footer>
           <p class="estimativa">Est. 45.0 kg de recicláveis</p>
-          <button type="button" class="btn-aceitar"><!-- ícone de check --> Aceitar</button>
+          <button type="button" class="btn-aceitar"><img src="../imagens/check.png" alt="icone de certo na demanda"> Aceitar</button>
         </footer>
       </article>
 
     </section>
   </main>
 
-  <!-- Abre/fecha o overlay do menu sanduíche.
-       O HTML sozinho não faz isso: o JavaScript liga/desliga o atributo "hidden". -->
   <script>
     const btnSanduiche = document.querySelector('.btn-sanduiche');
     const overlayMenu = document.getElementById('overlay-menu');
 
-    // clicar no sanduíche abre; clicar de novo fecha
     btnSanduiche.addEventListener('click', function () {
       overlayMenu.hidden = !overlayMenu.hidden;
     });
 
-    // clicar no fundo escurecido (fora da caixa de links) fecha
     overlayMenu.addEventListener('click', function (evento) {
       if (evento.target === overlayMenu) {
         overlayMenu.hidden = true;
