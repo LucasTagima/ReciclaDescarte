@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova Solicitação</title>
-    <link rel="stylesheet" href="#">
+    <link rel="stylesheet" href="../css/solicitacao.css">
 <body>
     <header class="cabecalho-dash">
         <div class="logo-dash">
@@ -54,7 +54,7 @@
         <form action="#" method="post" enctype="multipart/form-data" class="layout-duas-colunas">
             <div class="coluna-principal card">
                 <h1>Solicitar Nova Coleta</h1>
-                <p>Selecione os materiais e nos dê as informações básicas para agendamento.</p>
+                <p>Selecione os materiais e dê-nos informações básicas para o agendamento.</p>
                 <fieldset class="etapa">
                     <legend>1. Selecione o Tipo de Material</legend>
 
@@ -120,7 +120,7 @@
 
                     <div class="campo">
                         <label for="peso">Peso Estimado (kg)</label>
-                        <input type="number" id="peso" name="peso" min="0" step="0.1" placeholder="Aproximadamente 5 kg" required>
+                        <input type="number" id="peso" name="peso" min="0" step="0.1" placeholder="Exemplo: 5 kg" required>
                     </div>
 
                     <div class="campo">
@@ -135,7 +135,7 @@
 
                     <div class="campo">
                         <label for="observacoes">Observações / Instruções de acesso</label>
-                        <textarea id="observacoes" name="observacoes" rows="4" placeholder="Ex: Deixarei os materiais embalados na portaria do prédio."></textarea>
+                        <textarea id="observacoes" name="observacoes" rows="4" placeholder="Ex: Deixarei os materiais embalados na portaria do prédio, prontos para serem recolhidos."></textarea>
                     </div>
                 </fieldset>
             </div>
@@ -145,7 +145,7 @@
                     <legend>2. Endereço da Coleta</legend>
 
                     <div class="mapa">
-                        <iframe src="URL-DO-MAPA" title="Mapa com o local da coleta" loading="lazy"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14693.52203432982!2d-47.10698305!3d-22.973031199999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-BR!2sbr!4v1791498136650!5m2!1spt-BR!2sbr" title="Mapa com o local da coleta" loading="lazy"></iframe>
                     </div>
 
                     <div class="endereco">
@@ -159,7 +159,7 @@
 
                 <div class="confirmacao">
                     <strong>Tudo Pronto!</strong>
-                    <p>Suas solicitações chegam em tempo real às empresas certificadas no seu bairro.</p>
+                    <p>Suas solicitações chegarão em tempo real às empresas certificadas no seu bairro.</p>
                     <button type="submit">Confirmar Solicitação de Coleta</button>
                 </div>
 
