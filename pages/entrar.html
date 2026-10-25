@@ -3,61 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - ReciclaDescarte</title>
+    <meta name="description" content="Acesse sua conta ou explore a demonstração do ReciclaDescarte.">
+    <meta name="color-scheme" content="light dark">
+    <title>Entrar | ReciclaDescarte</title>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/entrar.css">
 </head>
-<body>
-    <main class="tela-login">
-        <div class="login-container">
-            <header class="login-header">
-                <img src="../imagens/logo.png" alt="Logo ReciclaDescarte" class="logo">
-                <h1>Bem-vindo ao ReciclaDescarte</h1>
-                <p>Conecte-se e faça a sua parte hoje.</p>
-            </header>
+<body data-pagina="entrar">
 
-            <form action="#" method="post" class="login-form">
-                <fieldset>
-                    <div class="input-group">
-                        <label for="email">E-mail</label>
-                        <input type="email" id="email" name="email" placeholder="exemplo@email.com" required>
-                    </div>
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
 
-                    <div class="input-group">
-                        <div class="label-senha-wrapper">
-                            <label for="senha">Senha</label>
-                            <a href="#" class="link-esqueceu">Esqueceu a senha?</a>
-                        </div>
-                        <div class="senha-wrapper">
-                            <input type="password" name="senha" id="senha" placeholder="••••••••••••" required>
-                            <span class="icone-olho">👁️‍🗨️</span> 
-                        </div>
+    <header id="cabecalho-app" class="cabecalho-app"></header>
+
+    <div id="faixa-demo" class="faixa-demo" hidden></div>
+
+    <div class="container">
+        <p id="mensagem-global" class="mensagem" role="status" aria-live="polite" hidden></p>
+
+        <div id="recuperar-pagina" class="acoes" hidden>
+            <button id="recarregar-pagina" type="button" class="botao botao-secundario">Tentar novamente</button>
+            <a href="entrar.html">Voltar para Entrar</a>
+        </div>
+        <p id="carregamento" class="mensagem" role="status" hidden>Verificando acesso…</p>
+        <noscript>
+            <p class="mensagem">Ative o JavaScript para usar os formulários e as configurações. <a href="../index.html">Página inicial</a>.</p>
+        </noscript>
+    </div>
+
+    <main id="conteudo" class="container tela-login" tabindex="-1">
+
+        <h1>Entre na sua conta</h1>
+        <p>Acompanhe suas solicitações e coletas.</p>
+
+        <div class="card">
+            <form id="form-entrar" class="pilha" method="post">
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input id="email" name="email" type="email" autocomplete="username" maxlength="254" required>
+                </div>
+
+                <div class="campo">
+                    <label for="senha">Senha</label>
+
+                    <div class="senha-wrapper">
+                        <input id="senha" name="senha" type="password" autocomplete="current-password" maxlength="128" required>
+                        <button type="button" class="botao-texto" data-mostrar-senha="senha" aria-controls="senha" aria-pressed="false">Mostrar</button>
                     </div>
-                </fieldset>
+                </div>
+                <p id="mensagem-form" class="mensagem" role="status" hidden></p>
+                <button type="submit" class="botao botao-primario botao-largo">Entrar</button>
+            </form>
+            <p class="criar-conta">Ainda não tem conta? <a href="cadastro.html">Cadastre-se</a>.</p>
+
+            <section id="demonstracao" class="demo-opcoes" aria-labelledby="titulo-demonstracao">
+                <h2 id="titulo-demonstracao">Quer testar primeiro?</h2>
+                <p class="texto-pequeno">Escolha um perfil para testar. Os dados ficam só neste navegador e não geram coletas reais.</p>
 
                 <div class="acoes">
-                    <button type="submit" class="btn-primario">Entrar</button>
+                    <button type="button" class="botao botao-secundario" data-entrar-demo="morador">Sou morador</button>
+                    <button type="button" class="botao botao-secundario" data-entrar-demo="cooperativa">Sou cooperativa</button>
                 </div>
-            </form>
-
-            <div class="divisor">
-                <span>ou entre com</span>
-            </div>
-
-            <div class="social-login">
-                <button class="btn-social">
-                    <img src="../imagens/google.png" alt="Google" width="20"> Google
-                </button>
-                <button class="btn-social">
-                    <img src="../imagens/apple.png" alt="Apple" width="20"> Apple
-                </button>
-            </div>
-
-            <footer class="login-footer">
-                <p>Não tem conta? <a href="cadastro.html" class="link-criar">Criar conta</a></p>
-            </footer>
+            </section>
         </div>
     </main>
-    
-    <script src="../scripts/main.js"></script>
+
+    <footer class="rodape">
+        <p>ReciclaDescarte - Campinas, SP</p>
+
+        <nav aria-label="Links do rodapé">
+            <a href="../index.html">Início</a>
+            <a href="sobre.html">Sobre o projeto</a>
+            <a href="sobre.html#privacidade">Dados e privacidade</a>
+            <a href="configuracoes.html">Configurações</a>
+        </nav>
+    </footer>
+
+    <script type="module" src="../scripts/main.js"></script>
 </body>
 </html>

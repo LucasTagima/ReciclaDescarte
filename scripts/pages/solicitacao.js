@@ -1,0 +1,221 @@
+import { CONFIG, ICONES_MATERIAL } from "../config.js";
+import { obterCategorias, criarChamado } from "../services/coletas.js";
+import { usuarioDemo } from "../services/demo.js";
+import { obterPreferencias } from "../services/preferencias.js";
+import { caminhoPagina } from "../services/auth.js";
+import { coordenadasValidas, dataLocal } from "../utils/dados.js";
+import {
+    elemento,
+    mensagem,
+    ocupado,
+    configurarFormulario,
+    erroCampo,
+    erroFormulario,
+    obterLocalizacao,
+    mostrarMapa,
+} from "../utils/ui.js";
+
+export async function iniciar() {
+    const formulario = document.getElementById("form-solicitacao");
+    const campos = formulario.elements;
+    const aviso = document.getElementById("mensagem-form");
+    const localAviso = document.getElementById("mensagem-localizacao");
+    const botaoEnviar = document.getElementById("enviar-solicitacao");
+    const grade = document.getElementById("categorias");
+    configurarFormulario(formulario);
+    campos.data_preferida.min = dataLocal();
+    const limiteFoto = usuarioDemo() ? CONFIG.fotoDemoMaxBytes : CONFIG.fotoMaxBytes;
+    document.getElementById("ajuda-foto").textContent = usuarioDemo()
+        ? "JPG, PNG ou WebP de até 400 KB. Na demonstração, use uma foto de exemplo."
+        : "JPG, PNG ou WebP de até 5 MB. Fotografe só o material, sem rostos ou documentos.";
+
+    async function carregarCategorias() {
+        botaoEnviar.disabled = true;
+        mensagem(aviso, "Carregando os materiais disponíveis…");
+        try {
+            const categorias = await obterCategorias();
+            if (!categorias.length)
+                throw new Error("Nenhum material está disponível para coleta no momento.");
+            grade.replaceChildren();
+            categorias.forEach((categoria, indice) => {
+                const opcao = elemento("div", "", "opcao-material");
+                const input = elemento("input");
+                input.type = "radio";
+                input.name = "categoria_id";
+                input.value = categoria.id;
+                input.id = `categoria-${indice}`;
+                input.required = true;
+                input.checked = categoria.id === obterPreferencias().categoriaPadrao;
+                const label = elemento("label");
+                label.htmlFor = input.id;
+                const icone = elemento("img");
+                const nome = ICONES_MATERIAL.has(categoria.icone)
+                    ? categoria.icone
+                    : "residuos-especiais";
+                icone.src = new URL(`../../icon/icon-${nome}.svg`, import.meta.url).href;
+                icone.alt = "";
+                icone.width = 30;
+                icone.height = 30;
+                label.append(icone, elemento("span", categoria.nome));
+                opcao.append(input, label);
+                grade.append(opcao);
+            });
+            botaoEnviar.disabled = false;
+            mensagem(aviso);
+            document.getElementById("recarregar-categorias").hidden = true;
+        } catch (erro) {
+            mensagem(aviso, erro.message, "erro");
+            document.getElementById("recarregar-categorias").hidden = false;
+        }
+    }
+    document
+        .getElementById("recarregar-categorias")
+        .addEventListener("click", (evento) => ocupado(evento.currentTarget, carregarCategorias));
+
+    let fotoUrl = null;
+    let fotoValida = false;
+    let sequenciaFoto = 0;
+    campos.foto.addEventListener("change", () => {
+        const sequencia = ++sequenciaFoto;
+        fotoValida = false;
+        if (fotoUrl) URL.revokeObjectURL(fotoUrl);
+        const previa = document.getElementById("previa-foto");
+        previa.hidden = true;
+        previa.removeAttribute("src");
+        const arquivo = campos.foto.files[0];
+        if (!arquivo) return;
+        if (!CONFIG.tiposFoto.includes(arquivo.type))
+            return erroCampo(campos.foto, "Selecione uma imagem JPG, PNG ou WebP.");
+        if (arquivo.size > limiteFoto)
+            return erroCampo(
+                campos.foto,
+                `A foto deve ter até ${usuarioDemo() ? "400 KB" : "5 MB"}.`,
+            );
+        if (!arquivo.size) return erroCampo(campos.foto, "O arquivo está vazio.");
+        fotoUrl = URL.createObjectURL(arquivo);
+        const imagem = new Image();
+        imagem.onload = () => {
+            if (sequencia !== sequenciaFoto) return;
+            fotoValida = true;
+            campos.foto.setCustomValidity("");
+            campos.foto.removeAttribute("aria-invalid");
+            previa.src = fotoUrl;
+            previa.hidden = false;
+        };
+        imagem.onerror = () => {
+            if (sequencia === sequenciaFoto)
+                erroCampo(
+                    campos.foto,
+                    "Não foi possível abrir esta imagem. Selecione outro arquivo.",
+                );
+        };
+        imagem.src = fotoUrl;
+    });
+    window.addEventListener("pagehide", () => {
+        if (fotoUrl) URL.revokeObjectURL(fotoUrl);
+    });
+
+    function atualizarPonto() {
+        campos.confirmar_localizacao.checked = false;
+        const latitude = campos.latitude.valueAsNumber;
+        const longitude = campos.longitude.valueAsNumber;
+        mostrarMapa(
+            document.getElementById("mapa-localizacao"),
+            coordenadasValidas(latitude, longitude) ? { latitude, longitude } : null,
+        );
+    }
+    [campos.latitude, campos.longitude].forEach((campo) =>
+        campo.addEventListener("change", atualizarPonto),
+    );
+    ["logradouro", "numero", "bairro", "cidade", "uf"].forEach((nome) =>
+        campos[nome].addEventListener("input", () => {
+            campos.confirmar_localizacao.checked = false;
+        }),
+    );
+    document.getElementById("usar-localizacao").addEventListener("click", (evento) =>
+        ocupado(
+            evento.currentTarget,
+            async () => {
+                mensagem(localAviso, "Obtendo sua localização…");
+                try {
+                    const ponto = await obterLocalizacao();
+                    campos.latitude.value = ponto.latitude.toFixed(6);
+                    campos.longitude.value = ponto.longitude.toFixed(6);
+                    campos.latitude.setCustomValidity("");
+                    campos.longitude.setCustomValidity("");
+                    atualizarPonto();
+                    mensagem(
+                        localAviso,
+                        "Encontramos sua localização. Confira se é nesse endereço que a coleta deve acontecer.",
+                        "sucesso",
+                    );
+                } catch (erro) {
+                    document.getElementById("coordenadas-manuais").open = true;
+                    mensagem(localAviso, erro.message, "erro");
+                }
+            },
+            "Localizando…",
+        ),
+    );
+    formulario.addEventListener(
+        "invalid",
+        (evento) => {
+            if (["latitude", "longitude"].includes(evento.target.name))
+                document.getElementById("coordenadas-manuais").open = true;
+        },
+        true,
+    );
+
+    formulario.addEventListener("submit", (evento) => {
+        evento.preventDefault();
+        if (!Number.isFinite(campos.peso_kg.valueAsNumber) || campos.peso_kg.valueAsNumber <= 0)
+            return erroCampo(campos.peso_kg, "Informe um peso maior que zero.");
+        const data = new Date(campos.data_preferida.value);
+        if (Number.isNaN(data.getTime()) || data <= new Date())
+            return erroCampo(campos.data_preferida, "Escolha uma data e hora futuras.");
+        if (!fotoValida)
+            return erroCampo(
+                campos.foto,
+                "Espere a foto aparecer antes de enviar. Se ela não carregar, escolha outra imagem.",
+            );
+        const localizacao = {
+            latitude: campos.latitude.valueAsNumber,
+            longitude: campos.longitude.valueAsNumber,
+        };
+        if (!coordenadasValidas(localizacao.latitude, localizacao.longitude))
+            return erroCampo(campos.latitude, "Informe um ponto válido.");
+        for (const nome of ["logradouro", "numero", "bairro", "cidade"]) {
+            if (!campos[nome].value.trim()) return erroCampo(campos[nome], "Preencha este campo.");
+        }
+        const endereco = Object.fromEntries(
+            ["logradouro", "numero", "complemento", "bairro", "cidade", "uf", "cep"].map((nome) => [
+                nome,
+                campos[nome].value.trim(),
+            ]),
+        );
+        endereco.uf = endereco.uf.toUpperCase();
+        endereco.cep = endereco.cep.replace(/\D/g, "");
+        const dados = {
+            categoria_id: campos.categoria_id.value,
+            peso_kg: campos.peso_kg.valueAsNumber,
+            data_preferida: data.toISOString(),
+            observacoes: campos.observacoes.value.trim(),
+            endereco,
+            localizacao,
+        };
+        ocupado(
+            botaoEnviar,
+            async () => {
+                mensagem(aviso);
+                try {
+                    await criarChamado(dados, campos.foto.files[0]);
+                    location.assign(`${caminhoPagina("coletas.html")}?criada=1`);
+                } catch (erro) {
+                    erroFormulario(formulario, aviso, erro);
+                }
+            },
+            "Enviando solicitação…",
+        );
+    });
+    await carregarCategorias();
+}

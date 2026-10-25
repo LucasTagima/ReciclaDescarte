@@ -3,168 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Morador</title>
+    <meta name="description" content="Acompanhe as solicitações e o histórico de coletas do seu perfil.">
+    <meta name="color-scheme" content="light dark">
+    <title>Meu painel | ReciclaDescarte</title>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/dash_morador.css">
 </head>
-<body>
-    <header class="cabecalho-dash">
-        <div class="logo-dash">
-            <img src="../imagens/logo.png" alt="Logo ReciclaDescarte">
+<body data-pagina="morador">
+
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+    <header id="cabecalho-app" class="cabecalho-app"></header>
+
+    <div id="faixa-demo" class="faixa-demo" hidden></div>
+
+    <div class="container">
+        <p id="mensagem-global" class="mensagem" role="status" aria-live="polite" hidden></p>
+
+        <div id="recuperar-pagina" class="acoes" hidden>
+            <button id="recarregar-pagina" type="button" class="botao botao-secundario">Tentar novamente</button>
+            <a href="entrar.html">Voltar para Entrar</a>
         </div>
-        
-        <nav class="menu-desktop" aria-label="Menu principal">
-            <a href="pages/dash_morador.html" class="ativo">Início</a>
-            <a href="pages/solicitacao.html">Nova Solicitação</a>
-            <a href="#">Configurações</a>
-        </nav>
+        <p id="carregamento" class="mensagem" role="status">Verificando acesso…</p>
+        <noscript>
+            <p class="mensagem">Ative o JavaScript para usar os formulários e as configurações. <a href="../index.html">Página inicial</a>.</p>
+        </noscript>
+    </div>
 
-        <div class="controles-flex">
-            <div class="usuario">
-                <img src="../imagens/avatar-mariana.jpg" alt="Mariana Silva">
-                <div class="usuario-info">
-                    <strong>Mariana Silva</strong>
-                    <span>Morador</span>
-                </div>
+    <main id="conteudo" class="container conteudo-app" hidden tabindex="-1">
+
+        <section class="card boas-vindas" aria-labelledby="saudacao">
+            <div>
+                <span class="etiqueta">Meu painel</span>
+                <h1 id="saudacao">Olá!</h1>
+                <p>Tem material para descartar? Envie uma foto e informe o local da retirada que desejar!</p>
+                <a class="botao botao-primario" href="solicitacao.html">Nova solicitação</a>
             </div>
-
-            <form role="search" class="busca">
-                <span class="icone-busca">🔍</span>
-                <input type="search" placeholder="Buscar coletas, emp...">
-            </form>
-
-            <button type="button" class="botao-notificacao" aria-label="Notificações">
-                <span class="ponto-vermelho"></span>
-                🔔
-            </button>
-        </div>
-        
-        <button type="button" class="botao-menu-mobile">MENU</button>
-
-        <nav class="menu-mobile-dropdown">
-            <a href="dash_morador.html" class="btn-menu-mobile">Inicio</a>
-            <a href="solicitacao.html" class="btn-menu-mobile">Nova Solicitação</a>
-            <a href="#" class="btn-menu-mobile">Configurações</a>
-        </nav>
-    </header>
-
-    <main class="dashboard">
-        <section class="saudacao">
-            <div class="texto-saudacao">
-                <h1>Olá, Mariana! <span class="icone-recicla">♻️</span></h1>
-                <p>Você já evitou que 142kg de resíduos fossem para aterros este mês. Continue com o excelente impacto ecológico!</p>
-            </div>
-            <img src="imagens/folha-tech.jpg" alt="Folha digital" class="img-saudacao">
+            <img src="../imagens/monitor_folha.png" alt="Monitor com uma folha, representando o descarte de eletrônicos" width="160" height="160">
         </section>
+        <dl class="indicadores" aria-label="Resumo das suas solicitações">
+            <div class="card indicador">
+                <dt>Pendentes</dt>
+                <dd id="total-pendentes">—</dd>
+            </div>
 
-        <section class="estatisticas" aria-label="Suas estatísticas">
-            <div class="card-estatistica">
-                <div class="card-cabecalho">
-                    <h2>Resíduos Reciclados</h2>
-                    <div class="icone-wrapper verde">🍃</div>
+            <div class="card indicador">
+                <dt>Em andamento</dt>
+                <dd id="total-andamento">—</dd>
+            </div>
+
+            <div class="card indicador">
+                <dt>Concluídas</dt>
+                <dd id="total-concluidas">—</dd>
+            </div>
+
+            <div class="card indicador">
+                <dt>Peso estimado retirado</dt>
+                <dd id="peso-concluido">—</dd>
+            </div>
+        </dl>
+        <p class="texto-pequeno nota-indicadores">Peso estimado das coletas concluídas, com base no que você informou.</p>
+
+        <section class="secao" aria-labelledby="titulo-recentes">
+            <div class="linha-entre">
+                <h2 id="titulo-recentes">Solicitações recentes</h2>
+
+                <div class="acoes">
+                    <button id="atualizar-lista" type="button" class="botao botao-secundario">Atualizar</button>
+                    <a href="coletas.html">Ver todas</a>
                 </div>
-                <p class="valor">142 kg</p>
-                <span class="variacao">+24kg esta semana</span>
             </div>
+            <p id="mensagem-lista" class="mensagem" role="status" hidden></p>
 
-            <div class="card-estatistica">
-                <div class="card-cabecalho">
-                    <h2>Coletas Realizadas</h2>
-                    <div class="icone-wrapper azul">🚚</div>
-                </div>
-                <p class="valor">18</p>
-                <span class="variacao">Próxima coletas em 2 dias</span>
-            </div>
-
-            <div class="card-estatistica">
-                <div class="card-cabecalho">
-                    <h2>Carbono Evitado</h2>
-                    <div class="icone-wrapper roxo">💨</div>
-                </div>
-                <p class="valor">324 kg CO₂</p>
-                <span class="variacao">Equivalente a 5 árvores</span>
-            </div>
-        </section>
-
-        <section class="acoes-rapidas">
-            <h2>Ações Rápidas</h2>
-            <div class="grid-acoes">
-                <a href="solicitacao.html" class="card-acao destaque">
-                    <div class="icone-acao">+</div>
-                    <div class="texto-acao">
-                        <strong>Nova Solicitação</strong>
-                        <span>Agendar coleta de recicláveis</span>
-                    </div>
-                </a>
-
-                <a href="#" class="card-acao">
-                    <div class="icone-acao outline">⏱️</div>
-                    <div class="texto-acao">
-                        <strong>Minhas Coletas</strong>
-                        <span>Status de solicitações ativas</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <section class="coletores-proximos">
-            <div class="cabecalho-secao">
-                <h2>Coletores Próximos</h2>
-                <a href="mapa.html">Ver todos no mapa</a>
-            </div>
-
-            <ul class="lista-coletores">
-                <li class="card-coletor">
-                    <div class="coletor-header">
-                        <div class="img-borda">
-                            <img src="imagens/greencycle.png" alt="GreenCycle">
-                        </div>
-                        <div class="info-coletor">
-                            <strong>Cooperativa GreenCycle</strong>
-                            <span class="avaliacao">⭐ 4.9 (120 coletas) · 1.2km</span>
-                        </div>
-                    </div>
-                    <ul class="tags">
-                        <li>Plástico</li>
-                        <li>Papel</li>
-                        <li>Vidro</li>
-                    </ul>
-                </li>
-
-                <li class="card-coletor">
-                    <div class="coletor-header">
-                        <div class="img-borda">
-                            <img src="imagens/ecolog.png" alt="EcoLog">
-                        </div>
-                        <div class="info-coletor">
-                            <strong>EcoLog Logística Reversa</strong>
-                            <span class="avaliacao">⭐ 4.8 (85 coletas) · 3.4km</span>
-                        </div>
-                    </div>
-                    <ul class="tags">
-                        <li>Metal</li>
-                        <li>Eletrônicos</li>
-                    </ul>
-                </li>
-
-                <li class="card-coletor">
-                    <div class="coletor-header">
-                        <div class="img-borda">
-                            <img src="imagens/pinheiros.png" alt="Recicla Pinheiros">
-                        </div>
-                        <div class="info-coletor">
-                            <strong>Recicla Pinheiros Coleta</strong>
-                            <span class="avaliacao">⭐ 4.7 (240 coletas) · 0.8km</span>
-                        </div>
-                    </div>
-                    <ul class="tags">
-                        <li>Orgânico</li>
-                        <li>Plástico</li>
-                    </ul>
-                </li>
-            </ul>
+            <div id="lista-recentes" class="grade-cards"></div>
         </section>
     </main>
 
-    <script src="../scripts/main.js"></script>
+    <footer class="rodape">
+        <p>ReciclaDescarte - Campinas, SP</p>
+
+        <nav aria-label="Links do rodapé">
+            <a href="../index.html">Início</a>
+            <a href="sobre.html">Sobre o projeto</a>
+            <a href="sobre.html#privacidade">Dados e privacidade</a>
+            <a href="configuracoes.html">Configurações</a>
+        </nav>
+    </footer>
+
+    <script type="module" src="../scripts/main.js"></script>
 </body>
 </html>

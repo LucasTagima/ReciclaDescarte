@@ -3,124 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReciclaDescarte - Início</title>
+    <meta name="description" content="Solicite a retirada de materiais em Campinas e acompanhe sua coleta pelo ReciclaDescarte.">
+    <meta name="color-scheme" content="light dark">
+    <title>Início | ReciclaDescarte</title>
+    <link rel="icon" href="imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body data-pagina="inicio">
 
-    <header class="cabecalho">
-        <div class="logotipo">
-            <img src="imagens/logo.png" alt="Logo ReciclaDescarte">
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="cabecalho-publico">
+        <a class="marca" href="index.html">
+            <img src="imagens/logo.png" alt="" width="36" height="36">
             <span>ReciclaDescarte</span>
-        </div>
-        
-        <div class="area-conta">
-            <a href="pages/entrar.html" class="botao-outline">Entrar</a>
-            <a href="pages/cadastro.html" class="botao-primario">Cadastrar-se</a>
-        </div>
+        </a>
 
-        <nav class="menu-navegacao" aria-label="Navegação principal">
-            <a href="#como-funciona">Como Funciona</a>
-            <a href="#parceiros">Parceiros</a>
-            <a href="#depoimentos">Depoimentos</a>
+        <nav class="menu-publico" aria-label="Menu principal">
+            <a href="#como-funciona">Como funciona</a>
+            <a href="#materiais">Materiais</a>
+            <a href="pages/configuracoes.html">Configurações</a>
         </nav>
+
+        <div class="acoes">
+            <a class="botao botao-secundario" href="pages/entrar.html">Entrar</a>
+            <a class="botao botao-primario" href="pages/cadastro.html">Cadastrar-se</a>
+        </div>
     </header>
 
-    <main class="conteudo-principal">
+    <div id="faixa-demo" class="faixa-demo" hidden></div>
 
-        <section class="hero">
-            <span class="etiqueta-hero">✓ O Site de Reciclagem Inteligente!</span>
-            <h1>Conectamos moradores a empresas de reciclagem</h1>
-            <p>Descarte seus resíduos recicláveis com praticidade, acompanhe seu impacto ambiental em tempo real e ajude a transformar sua cidade num ecossistema sustentável.</p>
-            
-            <div class="botoes-cta">
-                <a href="pages/entrar.html" class="botao-primario">Comece a Reciclar agora</a>
-                <a href="#" class="botao-outline">Quero ser Coletor Parceiro</a>
-            </div>
+    <div class="container">
+        <p id="mensagem-global" class="mensagem" role="status" aria-live="polite" hidden></p>
 
+        <div id="recuperar-pagina" class="acoes" hidden>
+            <button id="recarregar-pagina" type="button" class="botao botao-secundario">Tentar novamente</button>
+            <a href="pages/entrar.html">Voltar para Entrar</a>
+        </div>
+        <p id="carregamento" class="mensagem" role="status" hidden>Verificando acesso…</p>
+        <noscript>
+            <p class="mensagem">Ative o JavaScript para usar os formulários e as configurações. <a href="index.html">Página inicial</a>.</p>
+        </noscript>
+    </div>
 
-            <div class="card-proativo">
-                <div>
-                    <h3>Seja proativo!</h3>
-                    <p>Uma experiência simples para quem descarta e para quem coleta.</p>
+    <main id="conteudo" class="container" tabindex="-1">
+
+        <section class="hero" aria-labelledby="titulo-inicio">
+            <div class="hero-texto">
+                <span class="etiqueta">Moradores e cooperativas</span>
+                <h1 id="titulo-inicio">Peça uma coleta na região de <span>Campinas.</span></h1>
+                <p>Basta enviar uma foto do material e informar onde ele está. Uma cooperativa pode analisar e aceitar a retirada. Simples e prático!</p>
+
+                <div class="acoes">
+                    <a class="botao botao-primario" href="pages/entrar.html">Solicitar uma coleta</a>
+                    <a class="botao botao-secundario" href="pages/cadastro.html?perfil=cooperativa">Quero coletar</a>
                 </div>
-                <img src="imagens/hero_imagem.png" alt="Ilustração cidade sustentável">
+                <p class="texto-pequeno">Você pode testar o site com dados de exemplo, sem criar uma conta.</p>
+            </div>
+
+            <figure class="hero-ilustracao">
+                <img src="imagens/hero_imagem.png" alt="Moradores separando materiais para reciclagem" width="480" height="400">
+            </figure>
+        </section>
+
+        <section id="como-funciona" class="bloco-home" aria-labelledby="titulo-processo">
+            <h2 id="titulo-processo">Como pedir uma coleta</h2>
+            <p>Você faz o pedido e acompanha a resposta da cooperativa.</p>
+
+            <div class="grade-cards">
+                <article class="card passo-card">
+                    <span class="passo-numero">01</span>
+                    <h3>Informe o material</h3>
+                    <p class="texto-suave">Escolha o material, envie uma foto e informe o local da retirada, assim como observações importantes sobre a coleta!</p>
+                </article>
+
+                <article class="card passo-card">
+                    <span class="passo-numero">02</span>
+                    <h3>Aguarde o aceite</h3>
+                    <p class="texto-suave">Uma cooperativa vê o pedido e decide se pode fazer a coleta. Basta aguardar!</p>
+                </article>
+
+                <article class="card passo-card">
+                    <span class="passo-numero">03</span>
+                    <h3>Acompanhe sua coleta</h3>
+                    <p class="texto-suave">Veja quem aceitou o pedido e acompanhe a situação em Minhas coletas. Simples e prático!</p>
+                </article>
             </div>
         </section>
 
-        <section id="como-funciona" class="how-it-works">
-            <span class="etiqueta">Processo Simples</span>
-            <h2>Como o ReciclaDescarte funciona?</h2>
-            
-            <div class="passos-grid">
-                <article class="passo-card">
-                    <span class="numero">01</span>
-                    <h3>Solicite a Coleta</h3>
-                    <p>Indique o tipo de material reciclável, peso estimado e agende o melhor horário pelo app.</p>
+        <section id="materiais" class="bloco-home" aria-labelledby="titulo-materiais">
+            <h2 id="titulo-materiais">O que você precisa descartar?</h2>
+            <p>Veja uma prévia de categorias disponíveis no formulário antes de enviar seu pedido.</p>
+
+            <div class="grade-cards">
+                <article class="card passo-card">
+                    <h3>Eletrônicos</h3>
+                    <p class="texto-suave">Computadores, monitores e outros aparelhos.</p>
                 </article>
-                <article class="passo-card">
-                    <span class="numero">02</span>
-                    <h3>Empresa Aceita</h3>
-                    <p>Uma empresa ou cooperativa homologada aceita o seu pedido e se desloca até você.</p>
+
+                <article class="card passo-card">
+                    <h3>Óleo de cozinha</h3>
+                    <p class="texto-suave">Informe a quantidade e como o óleo está armazenado.</p>
                 </article>
-                <article class="passo-card">
-                    <span class="numero">03</span>
-                    <h3>Reciclagem Feita</h3>
-                    <p>Pronto! O lixo é coletado, encaminhado para triagem e você ganha pontos de impacto.</p>
+
+                <article class="card passo-card">
+                    <h3>Volumosos</h3>
+                    <p class="texto-suave">Móveis e objetos grandes que precisam de retirada.</p>
                 </article>
             </div>
         </section>
 
+        <section class="chamada-final" aria-labelledby="titulo-demo">
+            <h2 id="titulo-demo">Veja como funciona</h2>
+            <p>Como não está pronto o projeto, você pode testar como morador ou cooperativa, sem criar uma conta.</p>
 
-        <section id="depoimentos" class="depoimentos">
-            <h2>O que dizem os nossos usuários</h2>
-            <div class="passos-grid"> 
-                <article class="depoimento-card">
-                    <p>"O ReciclaDescarte transformou completamente a forma como lidamos com os resíduos na nossa casa. Agendamos e a empresa parceira retira. Incrível!"</p>
-                    <div class="autor">
-                        <strong>Beatriz M.</strong>
-                        <span>Moradora de São Paulo</span>
-                    </div>
-                </article>
-                <article class="depoimento-card">
-                    <p>"Como cooperativa parceira, conseguimos otimizar nossas rotas de coleta em mais de 40%, aumentando nosso faturamento e garantindo emprego seguro."</p>
-                    <div class="autor">
-                        <strong>Joaquim Santos</strong>
-                        <span>Diretor de Reciclagem</span>
-                    </div>
-                </article>
+            <div class="acoes">
+                <a class="botao botao-primario" href="pages/entrar.html#demonstracao">Testar o site</a>
+                <a href="pages/sobre.html">Conhecer o projeto</a>
             </div>
         </section>
     </main>
 
+    <footer class="rodape">
+        <p>ReciclaDescarte - Campinas, SP</p>
 
-    <footer class="rodape-principal">
-        <div class="rodape-grid">
-            <div class="rodape-marca">
-                <img src="imagens/logo.png" alt="Logo" class="logo-rodape">
-                <p>A tecnologia como catalisadora do futuro verde. Conectando cidadãos a empresas comprometidas.</p>
-            </div>
-            <div class="rodape-links">
-                <h4>Plataforma</h4>
-                <a href="#como-funciona">Como Funciona</a>
-                <a href="../pages/cadastro.html">Comece agora</a>
-                <a href="#depoimentos">Depoimentos</a>
-            </div>
-            <div class="rodape-links">
-                <h4>Empresa</h4>
-                <a href="#">Sobre nós</a>
-                <a href="#">Contato</a>
-            </div>
-            <div class="rodape-links">
-                <h4>Legal</h4>
-                <a href="#">Privacidade, Termos e LGPD</a>
-            </div>
-        </div>
-        <div class="rodape-direitos">
-            <p>© 2026 ReciclaDescarte. Todos os direitos reservados.</p>
-        </div>
+        <nav aria-label="Links do rodapé">
+            <a href="index.html">Início</a>
+            <a href="pages/sobre.html">Sobre o projeto</a>
+            <a href="pages/sobre.html#privacidade">Dados e privacidade</a>
+            <a href="pages/configuracoes.html">Configurações</a>
+        </nav>
     </footer>
 
-    <script src="../scripts/main.js"></script>
+    <script type="module" src="scripts/main.js"></script>
 </body>
 </html>
