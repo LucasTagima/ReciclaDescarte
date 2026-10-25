@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Acompanhe o andamento e o histórico das suas coletas.">
+    <meta name="color-scheme" content="light dark">
+    <title>Minhas coletas | ReciclaDescarte</title>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/base.css">
+</head>
+<body data-pagina="coletas">
+
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+    <header id="cabecalho-app" class="cabecalho-app"></header>
+
+    <div id="faixa-demo" class="faixa-demo" hidden></div>
+
+    <div class="container">
+        <p id="mensagem-global" class="mensagem" role="status" aria-live="polite" hidden></p>
+
+        <div id="recuperar-pagina" class="acoes" hidden>
+            <button id="recarregar-pagina" type="button" class="botao botao-secundario">Tentar novamente</button>
+            <a href="entrar.html">Voltar para Entrar</a>
+        </div>
+        <p id="carregamento" class="mensagem" role="status">Verificando acesso…</p>
+        <noscript>
+            <p class="mensagem">Ative o JavaScript para usar os formulários e as configurações. <a href="../index.html">Página inicial</a>.</p>
+        </noscript>
+    </div>
+
+    <main id="conteudo" class="container conteudo-app" hidden tabindex="-1">
+
+        <div class="cabecalho-pagina linha-entre">
+            <div>
+                <h1>Minhas coletas</h1>
+                <p id="descricao-coletas">Veja os pedidos em andamento e as coletas já concluídas.</p>
+            </div>
+            <button id="atualizar-lista" type="button" class="botao botao-secundario">Atualizar</button>
+        </div>
+        <p id="mensagem-acao" class="mensagem" role="status" hidden></p>
+
+        <form id="filtros" class="filtros" role="search" aria-label="Filtrar minhas coletas">
+            <div class="campo">
+                <label for="busca">Buscar material ou região</label>
+                <input id="busca" name="busca" type="search" placeholder="Ex.: papel, Centro">
+            </div>
+
+            <div class="campo">
+                <label for="status">Situação</label>
+                <select id="status" name="status">
+                    <option value="">Todas</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="em_andamento">Em andamento</option>
+                    <option value="concluido">Concluído</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="ordem">Ordenar por</label>
+                <select id="ordem" name="ordem">
+                    <option value="recentes">Mais recentes</option>
+                    <option value="agendamento">Data de preferência</option>
+                </select>
+            </div>
+            <button id="limpar-filtros" type="button" class="botao botao-secundario">Limpar filtros</button>
+        </form>
+
+        <section aria-labelledby="total-resultados">
+            <h2 id="total-resultados" aria-live="polite">Suas coletas</h2>
+            <p id="mensagem-lista" class="mensagem" role="status" hidden></p>
+
+            <div id="lista-chamados" class="grade-cards secao"></div>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <p>ReciclaDescarte - Campinas, SP</p>
+
+        <nav aria-label="Links do rodapé">
+            <a href="../index.html">Início</a>
+            <a href="sobre.html">Sobre o projeto</a>
+            <a href="sobre.html#privacidade">Dados e privacidade</a>
+            <a href="configuracoes.html">Configurações</a>
+        </nav>
+    </footer>
+
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>

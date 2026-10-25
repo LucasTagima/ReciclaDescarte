@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personalize a aparência e as preferências do ReciclaDescarte neste navegador.">
+    <meta name="color-scheme" content="light dark">
+    <title>Configurações | ReciclaDescarte</title>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/configuracoes.css">
+</head>
+<body data-pagina="configuracoes">
+
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+    <header id="cabecalho-app" class="cabecalho-app"></header>
+
+    <div id="faixa-demo" class="faixa-demo" hidden></div>
+
+    <div class="container">
+        <p id="mensagem-global" class="mensagem" role="status" aria-live="polite" hidden></p>
+
+        <div id="recuperar-pagina" class="acoes" hidden>
+            <button id="recarregar-pagina" type="button" class="botao botao-secundario">Tentar novamente</button>
+            <a href="entrar.html">Voltar para Entrar</a>
+        </div>
+        <p id="carregamento" class="mensagem" role="status" hidden>Verificando acesso…</p>
+        <noscript>
+            <p class="mensagem">Ative o JavaScript para usar os formulários e as configurações. <a href="../index.html">Página inicial</a>.</p>
+        </noscript>
+    </div>
+
+    <main id="conteudo" class="container conteudo-app" tabindex="-1">
+
+        <div class="cabecalho-pagina">
+            <h1>Configurações da aplicação</h1>
+            <p>Escolha a aparência do site e os filtros que prefere usar.</p>
+        </div>
+
+        <div class="configuracoes-layout">
+            <form id="form-configuracoes" class="card pilha">
+                <fieldset class="pilha">
+                    <legend>Aparência e leitura</legend>
+
+                    <div class="campo-duplo">
+                        <div class="campo">
+                            <label for="tema">Tema</label>
+                            <select id="tema" name="tema">
+                                <option value="sistema">Usar o tema do dispositivo</option>
+                                <option value="claro">Claro</option>
+                                <option value="escuro">Escuro</option>
+                            </select>
+                        </div>
+
+                        <div class="campo">
+                            <label for="tamanho-texto">Tamanho do texto</label>
+                            <select id="tamanho-texto" name="tamanhoTexto">
+                                <option value="normal">Padrão</option>
+                                <option value="grande">Ampliado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label class="checkbox-linha">
+                        <input id="reduzir-movimento" name="reduzirMovimento" type="checkbox">
+                        <span>Reduzir animações</span>
+                    </label>
+                    <p class="texto-pequeno">O site também respeita essa preferência quando ela está ativa no dispositivo.</p>
+                </fieldset>
+
+                <fieldset class="pilha">
+                    <legend>Preferências de coleta</legend>
+
+                    <div class="campo">
+                        <label for="categoria-padrao">Material preferido</label>
+                        <select id="categoria-padrao" name="categoriaPadrao" aria-describedby="ajuda-categoria" disabled>
+                            <option value="">Escolher a cada solicitação</option>
+                        </select>
+                        <small id="ajuda-categoria" class="texto-pequeno">Se escolher um material, ele já virá selecionado nas novas solicitações.</small>
+                    </div>
+
+                    <div class="campo-duplo">
+                        <div class="campo">
+                            <label for="raio-padrao">Distância inicial no radar</label>
+                            <select id="raio-padrao" name="raioPadrao">
+                                <option value="todos">Qualquer distância</option>
+                                <option value="5">Até 5 km</option>
+                                <option value="10">Até 10 km</option>
+                                <option value="25">Até 25 km</option>
+                            </select>
+                        </div>
+
+                        <div class="campo">
+                            <label for="ordem-padrao">Ordenar o radar por</label>
+                            <select id="ordem-padrao" name="ordemPadrao">
+                                <option value="recentes">Mais recentes</option>
+                                <option value="proximos">Mais próximos</option>
+                                <option value="agendamento">Data de preferência</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="texto-pequeno">No radar, use o botão “Usar minha localização” para aplicar o filtro de distância.</p>
+                </fieldset>
+                <p id="mensagem-form" class="mensagem" role="status" hidden></p>
+
+                <div class="acoes">
+                    <button type="submit" class="botao botao-primario">Salvar configurações</button>
+                    <button id="restaurar-configuracoes" type="button" class="botao botao-secundario">Restaurar padrão</button>
+                </div>
+            </form>
+
+            <aside class="pilha" aria-label="Informações das preferências">
+                <section class="card configuracoes-nota">
+                    <h2>Preferências deste navegador</h2>
+                    <p>Suas escolhas ficam salvas aqui e valem para todas as páginas.</p>
+                    <a href="sobre.html#privacidade">Veja quais dados ficam salvos</a>
+                </section>
+
+                <section id="controle-demo" class="card" hidden>
+                    <h2>Dados de teste</h2>
+                    <p>Volte aos exemplos iniciais para testar de novo.</p>
+                    <button id="reiniciar-demo" type="button" class="botao botao-secundario">Reiniciar demonstração</button>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <p>ReciclaDescarte · Projeto acadêmico · Campinas, SP</p>
+
+        <nav aria-label="Links do rodapé">
+            <a href="../index.html">Início</a>
+            <a href="sobre.html">Sobre o projeto</a>
+            <a href="sobre.html#privacidade">Dados e privacidade</a>
+            <a href="configuracoes.html">Configurações</a>
+        </nav>
+    </footer>
+
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>

@@ -1,100 +1,110 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cadastro | ReciclaDescarte</title>
-  <meta name="description" content="Crie sua conta no ReciclaDescarte e junte-se ao nosso ecossistema de sustentabilidade urbana.">
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/cadastro.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Crie seu perfil de morador ou cooperativa no ReciclaDescarte.">
+    <meta name="color-scheme" content="light dark">
+    <title>Criar conta | ReciclaDescarte</title>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/cadastro.css">
 </head>
-<body>
+<body data-pagina="cadastro">
 
-  <header class="topo">
-    <h1>Crie sua conta no ReciclaDescarte</h1>
-    <p>Junte-se ao nosso ecossistema de sustentabilidade urbana.</p>
-  </header>
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
 
-  <main>
-    <form action="#" method="post">
+    <header id="cabecalho-app" class="cabecalho-app"></header>
 
-      
-      <fieldset>
-        <legend>Quem é você?</legend>
+    <div id="faixa-demo" class="faixa-demo" hidden></div>
 
-        <div class="opcoes">
-          <p>
-            <img src="../icon/icon-home.svg" alt="Ícone de morador">
-            <input type="radio" id="tipo-morador" name="tipo" value="morador" checked>
-            <label for="tipo-morador">
-              <strong>Morador</strong><br>
-              <small>Quero solicitar coletas</small>
-            </label>
-          </p>
+    <div class="container">
+        <p id="mensagem-global" class="mensagem" role="status" aria-live="polite" hidden></p>
 
-          <p>
-            <img src="../icon/icon-truck.svg" alt="Ícone de empresa de coleta">
-            <input type="radio" id="tipo-empresa" name="tipo" value="empresa">
-            <label for="tipo-empresa">
-              <strong>Empresa de Coleta</strong><br>
-              <small>Quero recolher recicláveis</small>
-            </label>
-          </p>
+        <div id="recuperar-pagina" class="acoes" hidden>
+            <button id="recarregar-pagina" type="button" class="botao botao-secundario">Tentar novamente</button>
+            <a href="entrar.html">Voltar para Entrar</a>
         </div>
-      </fieldset>
+        <p id="carregamento" class="mensagem" role="status" hidden>Verificando acesso…</p>
+        <noscript>
+            <p class="mensagem">Ative o JavaScript para usar os formulários e as configurações. <a href="../index.html">Página inicial</a>.</p>
+        </noscript>
+    </div>
 
-      
-      <p>
-        <label for="nome">Nome Completo / Razão Social</label><br>
-        <input type="text" id="nome" name="nome" placeholder="Ana Carolina Santos" required>
-      </p>
+    <main id="conteudo" class="container tela-cadastro" tabindex="-1">
 
-      
-      <div class="linha">
-        <p>
-          <label for="email">E-mail</label><br>
-          <input type="email" id="email" name="email" placeholder="carol@email.com" required>
-        </p>
+        <h1>Crie sua conta</h1>
+        <p>Escolha seu perfil e preencha os dados abaixo.</p>
 
-        <p>
-          <label for="telefone">Telefone</label><br>
-          <input type="tel" id="telefone" name="telefone" placeholder="(xx) 9999-9999" required>
-        </p>
-      </div>
+        <form id="form-cadastro" class="card pilha" method="post">
+            <fieldset>
+                <legend>Qual é o seu perfil?</legend>
 
-      
-      <p>
-        <label for="endereco">Endereço Completo</label><br>
-        <input type="text" id="endereco" name="endereco" placeholder="Rua dos Pinheiros, 450 - Pinheiros, São Paulo - SP" required>
-      </p>
+                <div class="perfis">
+                    <label class="perfil-opcao">
+                        <input type="radio" name="tipo" value="morador" checked required>
+                        <span>Morador</span>
+                    </label>
+                    <label class="perfil-opcao">
+                        <input type="radio" name="tipo" value="cooperativa" required>
+                        <span>Cooperativa / coletor</span>
+                    </label>
+                </div>
+            </fieldset>
 
-      
-      <div class="linha">
-        <p>
-          <label for="senha">Senha</label><br>
-          <input type="password" id="senha" name="senha" placeholder="••••••••••••" required>
-        </p>
+            <div class="campo">
+                <label for="nome">Seu nome ou nome da cooperativa</label>
+                <input id="nome" name="nome" type="text" autocomplete="name" minlength="2" maxlength="120" required>
+            </div>
 
-        <p>
-          <label for="confirmar-senha">Confirmar Senha</label><br>
-          <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="••••••••••••" required>
-        </p>
-      </div>
+            <div class="campo-duplo">
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input id="email" name="email" type="email" autocomplete="email" maxlength="254" required>
+                </div>
 
-      
-      <p class="termos">
-        <input type="checkbox" id="termos" name="termos" checked required>
-        <label for="termos">
-          Eu aceito os <a href="termos.html">Termos de Serviço</a> e <a href="privacidade.html">Política de Privacidade</a>
-        </label>
-      </p>
+                <div class="campo">
+                    <label for="telefone">Telefone com DDD</label>
+                    <input id="telefone" name="telefone" type="tel" autocomplete="tel-national" maxlength="20" placeholder="(19) 99999-9999" required>
+                </div>
+            </div>
 
-      <button type="submit">Criar Conta</button>
+            <div class="campo">
+                <label for="senha">Senha</label>
 
-    </form>
-  </main>
+                <div class="senha-wrapper">
+                    <input id="senha" name="senha" type="password" autocomplete="new-password" minlength="8" maxlength="128" aria-describedby="ajuda-senha" required>
+                    <button type="button" class="botao-texto" data-mostrar-senha="senha" aria-controls="senha" aria-pressed="false">Mostrar</button>
+                </div>
+                <small id="ajuda-senha" class="texto-pequeno">Use de 8 a 128 caracteres, incluindo os espaços que você digitar.</small>
+            </div>
 
-  <script src="../scripts/main.js"></script>
+            <div class="campo">
+                <label for="confirmar-senha">Confirmar senha</label>
 
+                <div class="senha-wrapper">
+                    <input id="confirmar-senha" name="confirmar_senha" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+                    <button type="button" class="botao-texto" data-mostrar-senha="confirmar-senha" aria-controls="confirmar-senha" aria-pressed="false">Mostrar</button>
+                </div>
+            </div>
+            <p class="texto-pequeno">Você informa o endereço ao solicitar uma coleta. Leia <a href="sobre.html#uso">como usar o site</a> e <a href="sobre.html#privacidade">quais dados ficam salvos</a>.</p>
+            <p id="mensagem-form" class="mensagem" role="status" hidden></p>
+            <button type="submit" class="botao botao-primario botao-largo">Criar conta</button>
+        </form>
+        <p class="voltar-login">Já tem uma conta? <a href="entrar.html">Entrar</a>.</p>
+    </main>
+
+    <footer class="rodape">
+        <p>ReciclaDescarte - Campinas, SP</p>
+
+        <nav aria-label="Links do rodapé">
+            <a href="../index.html">Início</a>
+            <a href="sobre.html">Sobre o projeto</a>
+            <a href="sobre.html#privacidade">Dados e privacidade</a>
+            <a href="configuracoes.html">Configurações</a>
+        </nav>
+    </footer>
+
+    <script type="module" src="../scripts/main.js"></script>
 </body>
 </html>

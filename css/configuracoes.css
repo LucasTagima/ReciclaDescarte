@@ -1,0 +1,30 @@
+/* Preferências */
+.configuracoes-layout {
+    display: grid;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.configuracoes-layout .card h2 {
+    margin-bottom: 0.65rem;
+}
+
+.configuracoes-layout .card > p {
+    color: var(--suave);
+    margin-bottom: 1.1rem;
+}
+
+.configuracoes-layout fieldset + fieldset {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--borda);
+}
+
+.configuracoes-nota {
+    background: var(--verde-suave);
+}
+
+@media (min-width: 900px) {
+    .configuracoes-layout {
+        grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+    }
+}

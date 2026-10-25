@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conheça o ReciclaDescarte e saiba como funcionam os pedidos e a demonstração.">
+    <meta name="color-scheme" content="light dark">
+    <title>Sobre o projeto | ReciclaDescarte</title>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/base.css">
+</head>
+<body data-pagina="sobre">
+
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+    <header id="cabecalho-app" class="cabecalho-app"></header>
+
+    <div id="faixa-demo" class="faixa-demo" hidden></div>
+
+    <div class="container">
+        <p id="mensagem-global" class="mensagem" role="status" aria-live="polite" hidden></p>
+
+        <div id="recuperar-pagina" class="acoes" hidden>
+            <button id="recarregar-pagina" type="button" class="botao botao-secundario">Tentar novamente</button>
+            <a href="entrar.html">Voltar para Entrar</a>
+        </div>
+        <p id="carregamento" class="mensagem" role="status" hidden>Verificando acesso…</p>
+        <noscript>
+            <p class="mensagem">Ative o JavaScript para usar os formulários e as configurações. <a href="../index.html">Página inicial</a>.</p>
+        </noscript>
+    </div>
+
+    <main id="conteudo" class="container conteudo-app prosa" tabindex="-1">
+
+        <div class="cabecalho-pagina">
+            <span class="etiqueta">Projeto em desenvolvimento</span>
+            <h1>Sobre o ReciclaDescarte</h1>
+            <p>Um projeto acadêmico sobre descarte e coleta de materiais na região Campinas.</p>
+        </div>
+
+        <section aria-labelledby="escopo">
+            <h2 id="escopo">Sobre o projeto</h2>
+            <p>O ReciclaDescarte reúne quem precisa descartar materiais e quem pode coletá-los. Moradores enviam pedidos com foto e localização; cooperativas escolhem quais retiradas conseguem atender.</p>
+        </section>
+
+        <section aria-labelledby="uso">
+            <h2 id="uso">Antes de usar</h2>
+            <p>A demonstração serve para conhecer o site. Ela usa dados fictícios e não agenda retiradas. Use apenas fotos e informações de exemplo.</p>
+            <p>Nos pedidos reais, a retirada depende do aceite de uma cooperativa. A data escolhida indica sua preferência.</p>
+            <p>O radar mostra a distância em linha reta. Após aceitar uma coleta, você pode abrir a rota no Google Maps.</p>
+        </section>
+
+        <section aria-labelledby="privacidade">
+            <h2 id="privacidade">Dados e privacidade</h2>
+            <p>O tema e os filtros que você escolhe ficam salvos neste navegador. Em Configurações, você pode voltar aos exemplos iniciais e mudar da maneira que desejar.</p>
+            <p>Ao sair, o perfil é encerrado, mas os pedidos de teste continuam salvos. Nenhuma senha ou conteúdo importante é armazenado nesse modo.</p>
+            <p>Com uma conta conectada, os dados dos formulários são enviados ao serviço do projeto. As coletas reais não são salvas por este site no armazenamento local. Sua localização só é solicitada quando você usa o botão correspondente e caso você aceite utilizar sua localização.</p>
+            <p>Os mapas são externos: o OpenStreetMap recebe o ponto exibido, e o Google Maps recebe o destino quando você abre uma rota.</p>
+            <p>O projeto ainda está na fase de testes e este produto não oferece todas as funcionalidades futuras.</p>
+        </section>
+
+        <section aria-labelledby="acesso-demo">
+            <h2 id="acesso-demo">Teste como morador e cooperativa</h2>
+            <p>Comece como morador, crie um pedido e depois troque para cooperativa para testar o aceite e a conclusão.</p>
+
+            <div class="acoes secao">
+                <a class="botao botao-primario" href="entrar.html#demonstracao">Testar o site</a>
+                <a href="configuracoes.html">Abrir configurações</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <p>ReciclaDescarte - Campinas, SP</p>
+
+        <nav aria-label="Links do rodapé">
+            <a href="../index.html">Início</a>
+            <a href="sobre.html">Sobre o projeto</a>
+            <a href="sobre.html#privacidade">Dados e privacidade</a>
+            <a href="configuracoes.html">Configurações</a>
+        </nav>
+    </footer>
+
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>
