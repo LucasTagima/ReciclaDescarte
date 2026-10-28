@@ -37,36 +37,28 @@ function exemplos() {
     const agora = Date.now();
     const foto = new URL("../../imagens/monitor_folha.png", import.meta.url).href;
     return [
-        ["eletronicos", "5", 4.5, "pendente", -22.9056, -47.0608, "Centro", "demo-morador"],
-        ["papel", "2", 8, "pendente", -22.8976, -47.0497, "Cambuí", "demo-outro"],
-        ["metal", "4", 3, "em_andamento", -22.9124, -47.0678, "Botafogo", "demo-morador"],
-        ["plastico", "1", 2.5, "concluido", -22.9085, -47.0587, "Centro", "demo-morador"],
-    ].map(([nome, categoria, peso, status, latitude, longitude, bairro, morador], indice) => ({
+        ["5", "pendente", -22.9056, -47.0608, "demo-morador"],
+        ["2", "pendente", -22.8976, -47.0497, "demo-outro"],
+        ["4", "em_andamento", -22.9124, -47.0678, "demo-morador"],
+        ["1", "concluido", -22.9085, -47.0587, "demo-morador"],
+    ].map(([categoria, status, latitude, longitude, morador], indice) => ({
         id: `exemplo-${indice + 1}`,
         morador_id: morador,
         categoria: CATEGORIAS_DEMO.find((item) => item.id === categoria),
-        peso_kg: peso,
         status,
         criado_em: new Date(
             agora - (status === "concluido" ? 3 * 86400000 : (indice + 1) * 3600000),
         ).toISOString(),
-        data_preferida: new Date(
-            agora + (status === "concluido" ? -86400000 : (indice + 1) * 86400000),
-        ).toISOString(),
+        aceito_em: status === "pendente" ? null : new Date(agora - 7200000).toISOString(),
         concluido_em: status === "concluido" ? new Date(agora - 3600000).toISOString() : null,
         cooperativa_id: status === "pendente" ? null : "demo-cooperativa",
         cooperativa_nome: status === "pendente" ? null : USUARIOS.cooperativa.nome,
         endereco: {
             logradouro: "Endereço ilustrativo",
             numero: String(indice + 1),
-            complemento: "",
-            bairro,
-            cidade: "Campinas",
-            uf: "SP",
-            cep: "",
         },
         localizacao: { latitude, longitude },
-        observacoes: `Exemplo de ${nome}. Dados fictícios para testar o fluxo.`,
+        precisao_localizacao: "exata",
         foto_url: foto,
     }));
 }
@@ -111,7 +103,9 @@ export async function criarDemo(dados, foto) {
         criado_em: new Date().toISOString(),
         cooperativa_id: null,
         cooperativa_nome: null,
+        aceito_em: null,
         concluido_em: null,
+        precisao_localizacao: "exata",
         foto_url: fotoUrl,
     };
     const lista = lerChamados();
@@ -131,6 +125,7 @@ export async function atualizarDemo(id, acao) {
             chamado.status = "em_andamento";
             chamado.cooperativa_id = usuario.id;
             chamado.cooperativa_nome = usuario.nome;
+            chamado.aceito_em = new Date().toISOString();
         } else if (
             acao === "concluir" &&
             chamado.status === "em_andamento" &&

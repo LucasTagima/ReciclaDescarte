@@ -3,7 +3,7 @@ import { obterCategorias, criarChamado } from "../services/coletas.js";
 import { usuarioDemo } from "../services/demo.js";
 import { obterPreferencias } from "../services/preferencias.js";
 import { caminhoPagina } from "../services/auth.js";
-import { coordenadasValidas, dataLocal } from "../utils/dados.js";
+import { coordenadasValidas } from "../utils/dados.js";
 import {
     elemento,
     mensagem,
@@ -22,8 +22,8 @@ export async function iniciar() {
     const localAviso = document.getElementById("mensagem-localizacao");
     const botaoEnviar = document.getElementById("enviar-solicitacao");
     const grade = document.getElementById("categorias");
+    const orientacoes = document.getElementById("orientacoes-material");
     configurarFormulario(formulario);
-    campos.data_preferida.min = dataLocal();
     const limiteFoto = usuarioDemo() ? CONFIG.fotoDemoMaxBytes : CONFIG.fotoMaxBytes;
     document.getElementById("ajuda-foto").textContent = usuarioDemo()
         ? "JPG, PNG ou WebP de até 400 KB. Na demonstração, use uma foto de exemplo."
@@ -37,6 +37,8 @@ export async function iniciar() {
             if (!categorias.length)
                 throw new Error("Nenhum material está disponível para coleta no momento.");
             grade.replaceChildren();
+            orientacoes.hidden = true;
+            orientacoes.textContent = "";
             categorias.forEach((categoria, indice) => {
                 const opcao = elemento("div", "", "opcao-material");
                 const input = elemento("input");
@@ -46,6 +48,17 @@ export async function iniciar() {
                 input.id = `categoria-${indice}`;
                 input.required = true;
                 input.checked = categoria.id === obterPreferencias().categoriaPadrao;
+                const orientar = () => {
+                    orientacoes.textContent = [
+                        categoria.perigo ? `Risco: ${categoria.perigo}.` : "",
+                        categoria.instrucoes,
+                    ]
+                        .filter(Boolean)
+                        .join(" ");
+                    orientacoes.hidden = !orientacoes.textContent;
+                };
+                input.addEventListener("change", orientar);
+                if (input.checked) orientar();
                 const label = elemento("label");
                 label.htmlFor = input.id;
                 const icone = elemento("img");
@@ -116,7 +129,6 @@ export async function iniciar() {
     });
 
     function atualizarPonto() {
-        campos.confirmar_localizacao.checked = false;
         const latitude = campos.latitude.valueAsNumber;
         const longitude = campos.longitude.valueAsNumber;
         mostrarMapa(
@@ -124,10 +136,13 @@ export async function iniciar() {
             coordenadasValidas(latitude, longitude) ? { latitude, longitude } : null,
         );
     }
-    [campos.latitude, campos.longitude].forEach((campo) =>
-        campo.addEventListener("change", atualizarPonto),
-    );
-    ["logradouro", "numero", "bairro", "cidade", "uf"].forEach((nome) =>
+    [campos.latitude, campos.longitude].forEach((campo) => {
+        campo.addEventListener("input", () => {
+            campos.confirmar_localizacao.checked = false;
+        });
+        campo.addEventListener("change", atualizarPonto);
+    });
+    ["logradouro", "numero"].forEach((nome) =>
         campos[nome].addEventListener("input", () => {
             campos.confirmar_localizacao.checked = false;
         }),
@@ -141,6 +156,7 @@ export async function iniciar() {
                     const ponto = await obterLocalizacao();
                     campos.latitude.value = ponto.latitude.toFixed(6);
                     campos.longitude.value = ponto.longitude.toFixed(6);
+                    campos.confirmar_localizacao.checked = false;
                     campos.latitude.setCustomValidity("");
                     campos.longitude.setCustomValidity("");
                     atualizarPonto();
@@ -168,11 +184,6 @@ export async function iniciar() {
 
     formulario.addEventListener("submit", (evento) => {
         evento.preventDefault();
-        if (!Number.isFinite(campos.peso_kg.valueAsNumber) || campos.peso_kg.valueAsNumber <= 0)
-            return erroCampo(campos.peso_kg, "Informe um peso maior que zero.");
-        const data = new Date(campos.data_preferida.value);
-        if (Number.isNaN(data.getTime()) || data <= new Date())
-            return erroCampo(campos.data_preferida, "Escolha uma data e hora futuras.");
         if (!fotoValida)
             return erroCampo(
                 campos.foto,
@@ -184,23 +195,14 @@ export async function iniciar() {
         };
         if (!coordenadasValidas(localizacao.latitude, localizacao.longitude))
             return erroCampo(campos.latitude, "Informe um ponto válido.");
-        for (const nome of ["logradouro", "numero", "bairro", "cidade"]) {
-            if (!campos[nome].value.trim()) return erroCampo(campos[nome], "Preencha este campo.");
-        }
-        const endereco = Object.fromEntries(
-            ["logradouro", "numero", "complemento", "bairro", "cidade", "uf", "cep"].map((nome) => [
-                nome,
-                campos[nome].value.trim(),
-            ]),
-        );
-        endereco.uf = endereco.uf.toUpperCase();
-        endereco.cep = endereco.cep.replace(/\D/g, "");
+        if (!campos.logradouro.value.trim())
+            return erroCampo(campos.logradouro, "Informe a rua ou avenida.");
         const dados = {
             categoria_id: campos.categoria_id.value,
-            peso_kg: campos.peso_kg.valueAsNumber,
-            data_preferida: data.toISOString(),
-            observacoes: campos.observacoes.value.trim(),
-            endereco,
+            endereco: {
+                logradouro: campos.logradouro.value.trim(),
+                numero: campos.numero.value.trim(),
+            },
             localizacao,
         };
         ocupado(

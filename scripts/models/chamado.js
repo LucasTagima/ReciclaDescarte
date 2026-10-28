@@ -17,10 +17,6 @@ export class Chamado {
         Object.assign(this, dados);
         this.id = String(dados.id);
         this.categoria = { ...dados.categoria, id: String(dados.categoria.id) };
-        this.peso_kg = Number(dados.peso_kg);
-        if (!Number.isFinite(this.peso_kg) || this.peso_kg <= 0) {
-            throw new Error("A lista de solicitações contém um peso inválido.");
-        }
     }
 
     get rotuloStatus() {

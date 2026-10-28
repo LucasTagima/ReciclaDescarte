@@ -26,20 +26,12 @@ export function distanciaKm(origem, destino) {
     return 6371 * 2 * Math.atan2(Math.sqrt(Math.min(1, a)), Math.sqrt(Math.max(0, 1 - a)));
 }
 
-export function dataLocal(data = new Date()) {
-    const deslocamento = data.getTimezoneOffset() * 60000;
-    return new Date(data.getTime() - deslocamento).toISOString().slice(0, 16);
-}
-
 export function formatarData(valor) {
+    if (valor == null || valor === "") return "Não informado";
     const data = new Date(valor);
     return Number.isNaN(data.getTime())
         ? "Não informado"
         : new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" }).format(data);
-}
-
-export function formatarPeso(valor) {
-    return `${new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1 }).format(valor)} kg`;
 }
 
 export function filtrarChamados(
@@ -66,7 +58,7 @@ export function filtrarChamados(
             (!status || chamado.status === status) &&
             (!busca ||
                 limpar(
-                    `${chamado.categoria.nome} ${chamado.endereco?.bairro || ""} ${chamado.endereco?.cidade || ""} ${chamado.id}`,
+                    `${chamado.categoria.nome} ${chamado.endereco?.logradouro || ""} ${chamado.endereco?.numero || ""} ${chamado.id}`,
                 ).includes(busca)) &&
             (raio === "todos" || (distancia !== null && distancia <= Number(raio)))
         );
@@ -77,8 +69,13 @@ export function filtrarChamados(
                 (distanciaKm(origem, a.localizacao) ?? Infinity) -
                 (distanciaKm(origem, b.localizacao) ?? Infinity)
             );
-        if (ordem === "agendamento") return new Date(a.data_preferida) - new Date(b.data_preferida);
-        return new Date(b.criado_em) - new Date(a.criado_em);
+        const dataA = a.criado_em ? new Date(a.criado_em).getTime() : NaN;
+        const dataB = b.criado_em ? new Date(b.criado_em).getTime() : NaN;
+        if (!Number.isFinite(dataA)) return Number.isFinite(dataB) ? 1 : 0;
+        if (!Number.isFinite(dataB)) return -1;
+        const diferenca =
+            dataA - dataB || String(a.id).localeCompare(String(b.id), "pt-BR", { numeric: true });
+        return ordem === "antigos" ? diferenca : -diferenca;
     });
 }
 

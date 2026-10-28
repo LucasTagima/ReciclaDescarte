@@ -35,7 +35,7 @@
 
         <div class="cabecalho-pagina">
             <h1>Solicitar nova coleta</h1>
-            <p>Escolha um material e informe os detalhes da retirada. A data sugerida depende do aceite de uma cooperativa.</p>
+            <p>Escolha o material, envie uma foto e confirme o local da retirada.</p>
         </div>
 
         <form id="form-solicitacao" method="post" enctype="multipart/form-data">
@@ -48,19 +48,8 @@
                         <legend>1. Material para coleta</legend>
 
                         <div id="categorias" class="grade-materiais"></div>
+                        <p id="orientacoes-material" class="texto-pequeno" role="status" hidden></p>
                     </fieldset>
-
-                    <div class="campo-duplo">
-                        <div class="campo">
-                            <label for="peso">Peso estimado (kg)</label>
-                            <input id="peso" name="peso_kg" type="number" min="0.1" max="10000" step="0.1" inputmode="decimal" placeholder="Ex.: 5" required>
-                        </div>
-
-                        <div class="campo">
-                            <label for="data-hora">Quando prefere a retirada?</label>
-                            <input id="data-hora" name="data_preferida" type="datetime-local" required>
-                        </div>
-                    </div>
 
                     <div class="campo">
                         <label for="foto">Foto do material</label>
@@ -69,14 +58,6 @@
                         <img id="previa-foto" class="previa-foto" alt="Prévia da foto selecionada" hidden>
                     </div>
 
-                    <div class="campo">
-                        <label for="observacoes">
-                            Alguma orientação para a retirada?
-                            <span class="texto-pequeno">(opcional)</span>
-                        </label>
-                        <textarea id="observacoes" name="observacoes" rows="4" maxlength="1000" placeholder="Ex.: material embalado; retirada na portaria."></textarea>
-                        <small class="texto-pequeno">Até 1.000 caracteres. Evite senhas e códigos de entrada.</small>
-                    </div>
                 </div>
 
                 <div class="pilha">
@@ -85,47 +66,15 @@
 
                         <div class="campo">
                             <label for="logradouro">Rua ou avenida</label>
-                            <input id="logradouro" name="logradouro" autocomplete="address-line1" maxlength="150" required>
-                        </div>
-
-                        <div class="campo-duplo">
-                            <div class="campo">
-                                <label for="numero">Número</label>
-                                <input id="numero" name="numero" maxlength="15" placeholder="Ex.: 120 ou S/N" required>
-                            </div>
-
-                            <div class="campo">
-                                <label for="complemento">
-                                    Complemento
-                                    <span class="texto-pequeno">(opcional)</span>
-                                </label>
-                                <input id="complemento" name="complemento" autocomplete="address-line2" maxlength="100">
-                            </div>
+                            <input id="logradouro" name="logradouro" autocomplete="address-line1" maxlength="255" required>
                         </div>
 
                         <div class="campo">
-                            <label for="bairro">Bairro</label>
-                            <input id="bairro" name="bairro" autocomplete="address-level3" maxlength="100" required>
-                        </div>
-
-                        <div class="campo-duplo">
-                            <div class="campo">
-                                <label for="cidade">Cidade</label>
-                                <input id="cidade" name="cidade" value="Campinas" autocomplete="address-level2" maxlength="100" required>
-                            </div>
-
-                            <div class="campo">
-                                <label for="uf">Estado (UF)</label>
-                                <input id="uf" name="uf" value="SP" autocomplete="address-level1" minlength="2" maxlength="2" pattern="[A-Za-z]{2}" required>
-                            </div>
-                        </div>
-
-                        <div class="campo">
-                            <label for="cep">
-                                CEP
+                            <label for="numero">
+                                Número
                                 <span class="texto-pequeno">(opcional)</span>
                             </label>
-                            <input id="cep" name="cep" autocomplete="postal-code" inputmode="numeric" maxlength="9" pattern="[0-9]{5}-?[0-9]{3}" placeholder="00000-000">
+                            <input id="numero" name="numero" maxlength="100" placeholder="Ex.: 120 ou S/N">
                         </div>
                         <button id="usar-localizacao" type="button" class="botao botao-secundario">Usar minha localização</button>
                         <p id="mensagem-localizacao" class="mensagem" role="status" hidden></p>

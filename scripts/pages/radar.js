@@ -41,8 +41,9 @@ export async function iniciar({ usuario }) {
                     document.getElementById("mapa-radar"),
                     document.getElementById("legenda-mapa"),
                 ),
-            aoAlterar: async () => {
-                await carregar();
+            aoAlterar: (atualizado) => {
+                chamados = chamados.filter((item) => item.id !== atualizado.id);
+                renderizar();
                 mensagem(
                     document.getElementById("mensagem-acao"),
                     "Coleta aceita. Em “Minhas coletas”, você pode abrir a rota e concluir a retirada.",

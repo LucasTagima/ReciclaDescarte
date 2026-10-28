@@ -1,6 +1,6 @@
-// Único ponto de configuração da conexão. A configurar.
+// Único ponto de configuração da conexão. Configurado.
 export const CONFIG = Object.freeze({
-    apiBase: "/api",
+    apiBase: "http://127.0.0.1:5000/api",
     timeoutMs: 15000,
     fotoMaxBytes: 5 * 1024 * 1024,
     fotoDemoMaxBytes: 400 * 1024,
