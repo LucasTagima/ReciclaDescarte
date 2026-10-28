@@ -1,6 +1,5 @@
 import { listarChamados } from "../services/coletas.js";
 import { renderizarChamados } from "../components/chamados.js";
-import { formatarPeso } from "../utils/dados.js";
 import { mensagem, ocupado } from "../utils/ui.js";
 
 export async function iniciar({ usuario }) {
@@ -19,10 +18,7 @@ export async function iniciar({ usuario }) {
             document.getElementById("total-concluidas").textContent = chamados.filter(
                 (item) => item.status === "concluido",
             ).length;
-            const peso = chamados
-                .filter((item) => item.status === "concluido")
-                .reduce((soma, item) => soma + item.peso_kg, 0);
-            document.getElementById("peso-concluido").textContent = formatarPeso(peso);
+            document.getElementById("total-solicitacoes").textContent = chamados.length;
             const recentes = [...chamados]
                 .sort((a, b) => new Date(b.criado_em) - new Date(a.criado_em))
                 .slice(0, 3);

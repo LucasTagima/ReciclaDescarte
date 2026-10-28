@@ -1,0 +1,23 @@
+ReciclaDescarte — API separada
+Data da verificação: 25/10/2026
+
+Comando, executado dentro da pasta ReciclaDescarte-API:
+python -m pytest -q
+
+Resultado:
+28 passed, 5 skipped in 8.51s
+
+Os 28 testes aprovados usam o cliente Flask, segurança e serviços reais,
+com repositórios de teste em memória. Incluem a redefinição local de senha,
+a recusa da senha anterior e a preservação dos demais dados da conta.
+
+Os cinco testes ignorados exigem TEST_MYSQL_DATABASE separado e preparado
+com a mesma estrutura. Não foram executados com um servidor MySQL real.
+
+Limite do ambiente de preparação:
+Uma tentativa de validar em um MySQL 8.0.46 isolado foi interrompida porque
+a criação de sockets locais foi recusada com PermissionError (EPERM).
+Não houve conexão com o MySQL do grupo nem alteração de seus dados.
+
+A execução com MySQL deve ser confirmada no computador do grupo antes
+de considerar concluída a validação da integração com o banco real.

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Encontre solicitações de coleta disponíveis por material e região.">
+    <meta name="description" content="Encontre solicitações de coleta disponíveis por material e localização.">
     <meta name="color-scheme" content="light dark">
     <title>Radar de coletas | ReciclaDescarte</title>
     <link rel="icon" href="../imagens/logo.png" type="image/png">
@@ -61,8 +61,8 @@
 
         <form id="filtros" class="filtros" role="search" aria-label="Filtrar solicitações">
             <div class="campo">
-                <label for="busca">Buscar material ou região</label>
-                <input id="busca" name="busca" type="search" placeholder="Ex.: eletrônicos, Centro">
+                <label for="busca">Buscar material ou pedido</label>
+                <input id="busca" name="busca" type="search" placeholder="Ex.: eletrônicos ou 12">
             </div>
 
             <div class="campo">
@@ -87,7 +87,7 @@
                 <select id="ordem" name="ordem">
                     <option value="recentes">Mais recentes</option>
                     <option value="proximos">Mais próximos</option>
-                    <option value="agendamento">Data de preferência</option>
+                    <option value="antigos">Mais antigas</option>
                 </select>
             </div>
             <button id="limpar-filtros" type="button" class="botao botao-secundario">Limpar filtros</button>

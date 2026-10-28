@@ -1,4 +1,8 @@
 /* Nova solicitação */
+#mapa-localizacao {
+    min-height: 302px;
+}
+
 .layout-solicitacao {
     display: grid;
     gap: 1.4rem;

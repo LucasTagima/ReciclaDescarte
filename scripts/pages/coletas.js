@@ -29,11 +29,12 @@ export async function iniciar({ usuario }) {
             `${lista.length} ${lista.length === 1 ? "coleta encontrada" : "coletas encontradas"}`;
         renderizarChamados(document.getElementById("lista-chamados"), lista, {
             usuario,
-            aoAlterar: async () => {
-                await carregar();
+            aoAlterar: (atualizado) => {
+                chamados = chamados.map((item) => (item.id === atualizado.id ? atualizado : item));
+                renderizar();
                 mensagem(
                     document.getElementById("mensagem-acao"),
-                    "Coleta concluída. O histórico foi atualizado.",
+                    "Coleta concluída.",
                     "sucesso",
                     true,
                 );

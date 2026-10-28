@@ -20,7 +20,7 @@ export function normalizarPreferencias(dados) {
         categoriaPadrao:
             typeof valor.categoriaPadrao === "string" ? valor.categoriaPadrao.slice(0, 80) : "",
         raioPadrao: umaDe("raioPadrao", ["todos", "5", "10", "25"]),
-        ordemPadrao: umaDe("ordemPadrao", ["recentes", "proximos", "agendamento"]),
+        ordemPadrao: umaDe("ordemPadrao", ["recentes", "proximos", "antigos"]),
     };
 }
 
