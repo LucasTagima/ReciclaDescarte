@@ -79,7 +79,7 @@ Use o banco MySQL já preparado para o ReciclaDescarte. A aplicação espera as 
 <summary>SQL para preparar um banco novo</summary>
 
 ```sql
-CREATE DATABASE IF NOT EXISTS recicladescarte CHARACTER SET utf8mb4;
+CREATE DATABASE IF NOT EXISTS recicladescarte;
 USE recicladescarte;
 
 CREATE TABLE usuario (
@@ -90,7 +90,7 @@ CREATE TABLE usuario (
     telefone VARCHAR(20),
     perfil VARCHAR(50) NOT NULL,
     criado_em DATETIME
-) ENGINE=InnoDB;
+);
 
 CREATE TABLE endereco (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -101,14 +101,14 @@ CREATE TABLE endereco (
     lng DECIMAL(11, 8) NOT NULL,
     ativo BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
-) ENGINE=InnoDB;
+);
 
 CREATE TABLE categoria (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     perigo VARCHAR(50),
     instrucoes TEXT
-) ENGINE=InnoDB;
+);
 
 CREATE TABLE chamado (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -121,7 +121,7 @@ CREATE TABLE chamado (
     FOREIGN KEY (morador_id) REFERENCES usuario(id),
     FOREIGN KEY (endereco_id) REFERENCES endereco(id),
     FOREIGN KEY (categoria_id) REFERENCES categoria(id)
-) ENGINE=InnoDB;
+);
 
 CREATE TABLE coleta (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -132,7 +132,7 @@ CREATE TABLE coleta (
     concluido_em DATETIME,
     FOREIGN KEY (chamado_id) REFERENCES chamado(id),
     FOREIGN KEY (coletor_id) REFERENCES usuario(id)
-) ENGINE=InnoDB;
+);
 ```
 
 </details>
