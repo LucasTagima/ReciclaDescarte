@@ -1,8 +1,8 @@
 # Contrato da API
 
-Base local: `http://127.0.0.1:5000/api`. Os identificadores são strings nas respostas e inteiros positivos nas URLs; `categoria_id` aceita inteiro ou sua representação decimal em texto na entrada.
+Base local: `http://127.0.0.1:5000/api`. Os caminhos deste guia são relativos a essa base. Use identificadores inteiros positivos nos caminhos; no JSON de resposta, os IDs vêm como texto.
 
-Respostas de sucesso usam `{"dados": ...}`. A exceção é o logout, com `204` e corpo vazio. Os erros seguem este formato:
+Respostas JSON de sucesso têm o formato `{"dados": ...}`. O logout retorna `204` sem corpo, e a rota de foto entrega uma imagem. Os erros têm o formato:
 
 ```json
 {
@@ -13,44 +13,41 @@ Respostas de sucesso usam `{"dados": ...}`. A exceção é o logout, com `204` e
 }
 ```
 
-`campos` só aparece quando há erros associados a campos específicos. As mensagens são em português; o cliente deve decidir seu fluxo pelos códigos HTTP, sem depender do texto literal da mensagem.
+`campos` aparece quando o erro se refere a campos específicos. Use o código HTTP para tratar a resposta no cliente.
 
-## Autenticação, cookie e CSRF
+## Autenticação e CSRF
 
-1. Faça `GET /auth/csrf` e preserve o cookie recebido.
-2. Leia `dados.csrf_token` da resposta.
-3. Envie esse valor em `X-CSRF-Token` nas operações `POST`.
-4. Após o login, o cookie e o CSRF são trocados. Faça outro `GET /auth/csrf` antes da próxima escrita.
-5. Envie o cookie também nas consultas protegidas. No navegador, use `credentials: "include"`.
+1. Faça `GET /auth/csrf`, preserve o cookie da sessão e leia `dados.csrf_token`.
+2. Nas requisições `POST`, inclusive cadastro e login, mantenha o cookie e envie o token no cabeçalho `X-CSRF-Token`.
+3. Após o login, preserve o novo cookie e consulte `GET /auth/csrf` novamente antes da próxima escrita.
+4. Use o cookie nas consultas protegidas. No navegador, envie as requisições com `credentials: "include"` e use uma origem autorizada em `ORIGENS_PERMITIDAS`.
 
-O JWT é transportado somente pelo cookie `rd_sessao`, com `HttpOnly`, `SameSite=Lax` e caminho `/api`. A API não recebe o token por `Authorization: Bearer` e não o devolve no JSON. O cliente não precisa salvar JWT em `localStorage`.
-
-A sessão anônima dura 20 minutos; a autenticada dura duas horas por padrão. Não há renovação automática nem refresh token. Quando expirar, o cliente deve iniciar o fluxo de acesso novamente. O logout revoga a sessão no servidor, inclusive para quem guardou uma cópia do cookie anterior.
+O JWT circula no cookie `rd_sessao` (`HttpOnly`, `SameSite=Lax`, caminho `/api`). A API não aceita `Authorization: Bearer` nem devolve o token no corpo da resposta. A sessão anônima dura 20 minutos; a autenticada dura duas horas por padrão. Após expiração ou logout, inicie uma nova sessão para entrar novamente.
 
 ## Rotas disponíveis
 
-| Método | Caminho | Acesso | Retorno normal |
+| Método | Caminho | Acesso | Resposta de sucesso |
 | --- | --- | --- | --- |
-| GET | `/saude` | Público | 200; conexão e estrutura disponíveis. |
-| GET | `/auth/csrf` | Público, com cookie de sessão | 200; token CSRF. |
-| POST | `/auth/cadastro` | Sessão anônima ou autenticada + CSRF | 201; identificador da conta. |
-| POST | `/auth/login` | Sessão + CSRF | 200; dados da conta e novo cookie. |
-| GET | `/auth/me` | Autenticado | 200; conta atual. |
-| POST | `/auth/logout` | Autenticado + CSRF | 204; sessão revogada. |
-| GET | `/categorias` | Público | 200; catálogo real do banco. |
-| GET | `/chamados?visao=minhas` | Autenticado | 200; chamados do morador ou coletas da cooperativa. |
-| GET | `/chamados?visao=radar` | Cooperativa | 200; chamados pendentes. |
-| GET | `/chamados/{id}` | Dono, responsável ou cooperativa enquanto pendente | 200; detalhes permitidos ao perfil. |
-| POST | `/chamados` | Morador + CSRF | 201; chamado criado. |
-| POST | `/chamados/{id}/aceitar` | Cooperativa + CSRF | 200; chamado em andamento. |
-| POST | `/chamados/{id}/concluir` | Cooperativa responsável + CSRF | 200; chamado concluído. |
-| GET | `/fotos/{nome}` | Mesmo controle de acesso do chamado | 200; imagem JPEG. |
+| GET | `/saude` | Público | `200`; informa se a estrutura do banco está disponível. |
+| GET | `/auth/csrf` | Público | `200`; cria sessão anônima se necessário e retorna o token. |
+| POST | `/auth/cadastro` | Sessão e CSRF | `201`; ID da conta criada. |
+| POST | `/auth/login` | Sessão e CSRF | `200`; dados da conta e novo cookie. |
+| GET | `/auth/me` | Autenticado | `200`; dados da conta atual. |
+| POST | `/auth/logout` | Autenticado e CSRF | `204`; sessão encerrada. |
+| GET | `/categorias` | Público | `200`; categorias cadastradas no MySQL. |
+| GET | `/chamados?visao=minhas` | Autenticado | `200`; pedidos do morador ou coletas assumidas pela cooperativa. |
+| GET | `/chamados?visao=radar` | Cooperativa | `200`; pedidos pendentes. |
+| GET | `/chamados/{id}` | Morador dono, cooperativa responsável ou cooperativa enquanto pendente | `200`; dados permitidos ao perfil. |
+| POST | `/chamados` | Morador e CSRF | `201`; pedido criado. |
+| POST | `/chamados/{id}/aceitar` | Cooperativa e CSRF | `200`; coleta em andamento. |
+| POST | `/chamados/{id}/concluir` | Cooperativa responsável e CSRF | `200`; coleta concluída. |
+| GET | `/fotos/{nome}` | Mesmo acesso exigido pelo chamado | `200`; imagem JPEG. |
 
-Em `/chamados`, `visao=minhas` é o padrão. Outros valores ou parâmetros desconhecidos retornam `422`. Não há paginação nesta versão; a consulta retorna todos os registros correspondentes.
+Em `GET /chamados`, `visao=minhas` é o padrão. Valores de `visao` fora de `minhas` e `radar` ou parâmetros desconhecidos retornam `422`. A lista não usa paginação.
 
 ## Cadastro e login
 
-`POST /auth/cadastro`, `Content-Type: application/json`:
+Para `POST /auth/cadastro`, envie JSON:
 
 ```json
 {
@@ -62,66 +59,27 @@ Em `/chamados`, `visao=minhas` é o padrão. Outros valores ou parâmetros desco
 }
 ```
 
-Nome, e-mail, senha e tipo são obrigatórios. `telefone` é opcional e é gravado sem a formatação. Os tipos permitidos no cadastro são `morador` e `cooperativa`.
+`tipo` pode ser `morador` ou `cooperativa`. O nome aceita de 2 a 255 caracteres, o e-mail até 254 e a senha de 8 a 128. Espaços da senha são preservados e o e-mail é normalizado para minúsculas. O telefone é opcional; quando informado, deve ter 10 ou 11 dígitos com DDD. E-mail duplicado retorna `409`.
 
-A senha aceita de 8 a 128 caracteres no cadastro. Espaços fazem parte dela e são preservados. O nome admite de 2 a 255 caracteres; o e-mail, até 254. Quando preenchido, o telefone deve resultar em 10 ou 11 dígitos com DDD. O e-mail é normalizado para minúsculas.
+O cadastro retorna `{"dados":{"id":"7"}}` e não autentica a conta. Para entrar, envie `email` e `senha` em JSON para `POST /auth/login`. Login e `GET /auth/me` retornam `id`, `nome`, `email`, `telefone` e `tipo`. Credenciais inválidas retornam `401`. Cadastro e login têm limites separados de dez requisições por IP a cada 15 minutos.
 
-Resposta `201`:
+`POST /auth/logout` não recebe corpo e revoga a sessão. Uma consulta posterior a `/auth/me` sem sessão autenticada retorna `401`.
 
-```json
-{"dados":{"id":"7"}}
-```
+## Categorias
 
-O cadastro não faz login automático. Em seguida, `POST /auth/login` recebe:
+`GET /categorias` consulta o banco:
 
 ```json
-{"email":"ana@example.com","senha":"uma senha de exemplo 123"}
+{"dados":[{"id":"3","nome":"Papel","perigo":"Baixo","instrucoes":"Separe limpo e seco."}]}
 ```
 
-O login e `GET /auth/me` devolvem os campos públicos da conta:
-
-```json
-{
-    "dados": {
-        "id": "7",
-        "nome": "Ana Silva",
-        "email": "ana@example.com",
-        "telefone": "19999991234",
-        "tipo": "morador"
-    }
-}
-```
-
-Senha errada e e-mail inexistente recebem a mesma resposta `401`. E-mail duplicado no cadastro retorna `409`. Há um limite separado de 10 tentativas de login e 10 de cadastro por IP a cada 15 minutos; o limite inclui chamadas que deram certo. O perfil vem da coluna `usuario.perfil`, nunca do nome ou do e-mail.
-
-Valores antigos `Morador`, `Cooperativa`, `coletor` e `catador` são interpretados sem mudar o registro original; os três últimos representam o perfil de cooperativa. Perfis não reconhecidos recebem `403`.
-
-`POST /auth/logout` não precisa de corpo. Depois de sair, uma chamada a `/auth/me` deve retornar `401`.
-
-## Catálogo
-
-`GET /categorias` retorna:
-
-```json
-{
-    "dados": [
-        {"id":"3","nome":"Papel","perigo":"Baixo","instrucoes":"Separe limpo e seco."}
-    ]
-}
-```
-
-O identificador e os textos são exemplos; o servidor retorna os valores existentes na sua tabela. `perigo` e `instrucoes` podem ser `null`.
+`perigo` e `instrucoes` podem ser `null`. Use o ID da categoria retornado pelo seu ambiente.
 
 ## Criação de chamado com foto
 
-`POST /chamados` recebe `multipart/form-data` com exatamente duas partes:
+Envie `POST /chamados` como `multipart/form-data`, com exatamente duas partes: `dados` como texto JSON e `foto` como arquivo JPEG, PNG ou WebP. Envie o cabeçalho de CSRF e preserve o cookie. Ao montar o formulário, deixe o cliente gerar o `Content-Type` com seu delimitador.
 
-| Parte | Conteúdo |
-| --- | --- |
-| `dados` | Texto contendo o objeto JSON abaixo. |
-| `foto` | Arquivo JPG, PNG ou WebP, de até 5 MiB. |
-
-Conteúdo da parte `dados`:
+Exemplo da parte `dados`:
 
 ```json
 {
@@ -131,15 +89,11 @@ Conteúdo da parte `dados`:
 }
 ```
 
-`logradouro`, categoria e coordenadas são obrigatórios. `numero` é opcional e deve ser texto quando enviado. Latitude deve estar entre -90 e 90; longitude, entre -180 e 180. Coordenadas precisam ser números JSON finitos. São gravadas com até oito casas decimais, conforme as colunas existentes.
+`categoria_id` aceita inteiro positivo ou a representação decimal em texto. `logradouro` e coordenadas são obrigatórios; `numero` é opcional e, quando informado, deve ser texto. Envie as coordenadas como números JSON finitos (latitude de −90 a 90; longitude de −180 a 180). A API define o morador, a situação e as datas. Campos fora do exemplo, como peso ou agendamento, não são aceitos.
 
-O dono e o estado inicial são definidos pelo servidor. Não envie `morador_id`, `usuario_id`, `status` ou datas de criação. Também não envie campos inexistentes no banco, como `peso_kg`, `data_preferida`, `observacoes`, `bairro`, `complemento`, `cidade`, `uf` ou `cep`.
+A foto pode ter até 5 MiB e 20 milhões de pixels; o limite da requisição inteira é 6 MiB. O servidor grava um JPEG sem os metadados originais, com proporção preservada e até 4096 pixels por lado.
 
-As imagens são decodificadas e regravadas em JPEG com nome aleatório. São aceitas até 20 milhões de pixels e a dimensão final é limitada a 4096 pixels em cada lado, preservando a proporção. Metadados do arquivo de origem não são repassados. O limite total da requisição é 6 MiB.
-
-No Postman, escolha `Body → form-data`: `dados` como `Text`, `foto` como `File`; acrescente `X-CSRF-Token`. Não defina manualmente o boundary do `Content-Type`; o cliente de envio deve gerá-lo. Preserve os cookies entre a consulta do CSRF, o login e o envio da foto.
-
-Resposta `201`, também usada nas consultas e atualizações do chamado:
+Exemplo de resposta `201`:
 
 ```json
 {
@@ -162,40 +116,32 @@ Resposta `201`, também usada nas consultas e atualizações do chamado:
 }
 ```
 
-O caminho da foto é relativo ao servidor da API. Ele requer o cookie de autenticação. Valores antigos de `foto_url` que não sejam referências locais desta API não são convertidos em fotos acessíveis.
-
-Se uma conexão cair durante a confirmação de um chamado, consulte o histórico antes de repetir o envio: uma resposta de falha de conexão não prova que o MySQL deixou de confirmar a operação. Não há chave de idempotência para criação nesta versão.
+`foto_url` é um caminho relativo à origem da API e já inclui `/api`. A consulta da foto requer sessão autorizada. Se a conexão cair durante o envio, confira o histórico antes de repetir a criação: o pedido pode ter sido gravado mesmo sem resposta ao navegador.
 
 ## Radar, aceite e conclusão
 
-Antes do aceite, as cooperativas veem a categoria, a foto e coordenadas arredondadas para duas casas decimais. O endereço completo e o identificador do morador são omitidos. `precisao_localizacao` será `aproximada`; essas coordenadas não devem ser usadas como destino exato de navegação.
+Antes do aceite, a cooperativa recebe material, foto e coordenadas aproximadas (`precisao_localizacao: "aproximada"`), sem o endereço completo nem o ID do morador. Após o aceite, a cooperativa responsável recebe o endereço e as coordenadas exatas. As outras cooperativas deixam de ter acesso. O morador pode acompanhar seu próprio pedido em todas as etapas.
 
-O morador dono sempre pode consultar seu chamado. Depois do aceite, a cooperativa responsável recebe o endereço e as coordenadas exatas. As outras cooperativas deixam de ter acesso àquele chamado e à foto; moradores não veem os chamados de outras contas. A foto em si pode conter informações do ambiente fotografado.
+- `POST /chamados/12/aceitar`: muda o status de `pendente` para `em_andamento`, registra a responsável e preenche `aceito_em`. Um segundo aceite recebe `409`.
+- `POST /chamados/12/concluir`: somente a cooperativa responsável pode mudar o status para `concluido` e preencher `concluido_em`.
 
-Para aceitar: `POST /chamados/12/aceitar`, com cookie, CSRF e sem corpo. O estado muda de `pendente` para `em_andamento`; a API cria `coleta` e registra o responsável e o instante do aceite.
-
-Para concluir: `POST /chamados/12/concluir`, também sem corpo. Somente a responsável pode fazê-lo. O estado muda para `concluido` e `concluido_em` é preenchido.
-
-Se duas cooperativas tentarem aceitar o mesmo chamado, a primeira transação válida vence; a outra recebe `409`. A proteção usa bloqueio de linha do InnoDB nas operações desta API, sem acrescentar `UNIQUE` a `coleta.chamado_id`. Escritas feitas diretamente por outros sistemas precisam respeitar o mesmo protocolo para ter essa garantia.
-
-Não há cancelamento, exclusão ou reabertura neste contrato. Esses estados não foram acrescentados ao fluxo existente.
+As duas operações exigem cookie e CSRF, sem corpo. O contrato atual não oferece cancelamento, exclusão ou reabertura.
 
 ## Códigos de resposta
 
 | Código | Significado |
 | --- | --- |
-| 200 / 201 / 204 | Consulta ou alteração concluída. |
-| 400 | JSON ou formato da requisição inválido. |
-| 401 | Credenciais inválidas ou sessão ausente/expirada. |
-| 403 | Perfil sem permissão, origem recusada ou CSRF inválido. |
-| 404 | Recurso inexistente ou fora do acesso daquele usuário. |
-| 405 | Método HTTP não permitido. |
-| 409 | E-mail duplicado, coleta já assumida, transição inválida ou conflito de concorrência. |
-| 413 | Arquivo ou requisição acima do limite. |
-| 415 | Tipo de conteúdo não aceito. |
-| 422 | Campos inválidos, ausentes ou não previstos. |
-| 429 | Limite de tentativas alcançado; `Retry-After: 900`. |
-| 500 | Falha interna, sem exposição de detalhes. |
-| 503 | Banco, armazenamento ou serviço indisponível. |
+| `200` / `201` / `204` | Consulta ou alteração concluída. |
+| `400` | JSON malformado, partes multipart ausentes ou duplicadas, ou corpo indevido. |
+| `401` | Credenciais inválidas ou sessão ausente ou expirada. |
+| `403` | Perfil sem permissão, origem recusada ou CSRF inválido. |
+| `404` | Recurso inexistente ou fora do acesso da conta. |
+| `405` | Método HTTP não permitido. |
+| `409` | E-mail duplicado, pedido já assumido, transição inválida ou conflito de concorrência. |
+| `413` | Foto ou requisição acima do limite. |
+| `415` | Tipo de conteúdo não aceito. |
+| `422` | Dados ou parâmetros de consulta ausentes, inválidos ou não aceitos. |
+| `429` | Limite de tentativas alcançado; `Retry-After: 900`. |
+| `500` / `503` | Falha interna ou serviço indisponível. |
 
-O cabeçalho `X-Requisicao-Id` permite relacionar uma falha à entrada correspondente no log do servidor. As respostas não expõem SQL, hash de senha ou credenciais do banco.
+Use o cabeçalho `X-Requisicao-Id` para localizar a requisição no log da API.
